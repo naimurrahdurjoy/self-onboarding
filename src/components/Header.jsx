@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Globe, LogOut, User, Settings } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
@@ -13,10 +13,23 @@ export default function Header({ language, setLanguage }) {
   const { user, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
   const [showProfileMenu, setShowProfileMenu] = useState(false)
+  const menuRef = useRef(null)
   const lang = t[language] || t.en
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowProfileMenu(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const handleLogout = () => {
     logout()
+    setShowProfileMenu(false)
     navigate('/login')
   }
 
@@ -44,7 +57,7 @@ export default function Header({ language, setLanguage }) {
           />
         </button>
 
-        <div className="flex items-center gap-2 sm:gap-6 min-w-0">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
           <div className="flex items-center gap-2">
             <Globe className="w-4 h-4 text-gray-600" />
             <select
@@ -58,13 +71,16 @@ export default function Header({ language, setLanguage }) {
           </div>
 
           {isAuthenticated && user && (
-            <div className="relative">
+            <div ref={menuRef} className="relative">
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm hover:bg-opacity-90 transition"
+                className="flex items-center gap-2 rounded-full bg-primary px-2 py-1.5 text-white hover:bg-opacity-90 transition"
                 title="MFS User Profile & eKYC"
               >
-                {user.avatar}
+                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm">
+                  {user.avatar}
+                </span>
+                <span className="hidden sm:inline text-sm font-medium">{lang.profile}</span>
               </button>
 
               {showProfileMenu && (

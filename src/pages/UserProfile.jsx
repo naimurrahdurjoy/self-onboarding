@@ -189,18 +189,10 @@ export default function UserProfile({ language = 'en' }) {
         <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-primary">{lang.mfsProfile}</h2>
-            {!isEditing && eKYCStatus !== 'verified' && (
+            {(!isEditing || eKYCStatus === 'verified') && (
               <button
                 onClick={() => setIsEditing(true)}
                 className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition font-bold"
-              >
-                Edit
-              </button>
-            )}
-            {eKYCStatus === 'verified' && (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition font-bold"
               >
                 {lang.editProfile}
               </button>
