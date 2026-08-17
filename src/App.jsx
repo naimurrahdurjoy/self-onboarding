@@ -53,9 +53,13 @@ function AppContent() {
             element={isAuthenticated ? <Dashboard language={language} /> : <Navigate to="/login" />} 
           />
 
-          {/* Root Route */}
+          {/* Root & fallback routes */}
           <Route 
             path="/" 
+            element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login language={language} />} 
+          />
+          <Route 
+            path="*" 
             element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} 
           />
         </Routes>

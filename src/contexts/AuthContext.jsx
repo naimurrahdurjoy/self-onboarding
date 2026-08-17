@@ -33,19 +33,34 @@ export function AuthProvider({ children }) {
   const [applicationStatus, setApplicationStatus] = useState('Not Started') // Not Started, Submitted, eKYC Verified, Assigned to RO, Credit Review, Sanctioned
   const [loanApplicationData, setLoanApplicationData] = useState({})
 
-  // Load from localStorage on mount
+  // Restore active session only when explicitly available; otherwise always start
+  // at the login screen to avoid stale or duplicate sessions being treated as valid.
   useEffect(() => {
     const savedUser = localStorage.getItem('user')
+    const savedSession = localStorage.getItem('authSession') === 'active'
     const savedEKYC = localStorage.getItem('eKYCStatus')
     const savedProfile = localStorage.getItem('userProfile')
     const savedAppStatus = localStorage.getItem('applicationStatus')
-    if (savedUser) {
+
+    if (savedSession && savedUser) {
       const parsedUser = JSON.parse(savedUser)
       setUser(parsedUser)
       setIsAuthenticated(true)
       setEKYCStatus(savedEKYC || 'pending')
       setUserProfile(savedProfile ? JSON.parse(savedProfile) : defaultProfile)
       setApplicationStatus(savedAppStatus || 'Not Started')
+    } else {
+      setUser(null)
+      setIsAuthenticated(false)
+      setEKYCStatus(null)
+      setUserProfile(defaultProfile)
+      setApplicationStatus('Not Started')
+      localStorage.removeItem('user')
+      localStorage.removeItem('role')
+      localStorage.removeItem('eKYCStatus')
+      localStorage.removeItem('userProfile')
+      localStorage.removeItem('applicationStatus')
+      localStorage.removeItem('authSession')
     }
     setLoading(false)
   }, [])
@@ -112,6 +127,7 @@ export function AuthProvider({ children }) {
     setEKYCStatus(nextEKYC)
     setApplicationStatus(nextAppStatus)
     localStorage.setItem('user', JSON.stringify(mockUser))
+    localStorage.setItem('authSession', 'active')
     localStorage.setItem('role', mockUser.role)
     localStorage.setItem('eKYCStatus', nextEKYC)
     localStorage.setItem('applicationStatus', nextAppStatus)
@@ -131,6 +147,7 @@ export function AuthProvider({ children }) {
     setEKYCStatus('pending')
     setApplicationStatus('Not Started')
     localStorage.setItem('user', JSON.stringify(newUser))
+    localStorage.setItem('authSession', 'active')
     localStorage.setItem('eKYCStatus', 'pending')
     localStorage.setItem('applicationStatus', 'Not Started')
   }
@@ -141,6 +158,7 @@ export function AuthProvider({ children }) {
     setEKYCStatus(null)
     setUserProfile(defaultProfile)
     localStorage.removeItem('user')
+    localStorage.removeItem('authSession')
     localStorage.removeItem('role')
     localStorage.removeItem('eKYCStatus')
     localStorage.removeItem('userProfile')
