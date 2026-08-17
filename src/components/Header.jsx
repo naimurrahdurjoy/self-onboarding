@@ -64,66 +64,53 @@ export default function Header({ language, setLanguage }) {
         <div className="flex items-center gap-2 sm:gap-4 min-w-0">
           <div className="flex items-center gap-2">
             <Globe className="w-4 h-4 text-gray-600" />
-            <select
-              value={language}
-              onChange={e => setLanguage(e.target.value)}
-              className="border border-gray-300 rounded px-2 py-1 text-sm bg-white"
+            <button
+              type="button"
+              onClick={() => setLanguage((prev) => (prev === 'en' ? 'bn' : 'en'))}
+              className="border border-gray-300 rounded px-2 py-1 text-sm bg-white text-gray-700 hover:bg-gray-50 transition"
             >
-              <option value="en">English</option>
-              <option value="bn">বাংলা</option>
-            </select>
+              {language === 'en' ? 'English' : 'বাংলা'}
+            </button>
           </div>
 
           {isAuthenticated && user && (
             <div ref={profileMenuRef} className="relative">
               <button
                 type="button"
-                aria-expanded={isProfileOpen}
-                aria-haspopup="menu"
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm hover:bg-opacity-90 transition shadow-sm ring-2 ring-white"
+                className="w-10 h-10 rounded-full bg-[#0D5C3A] text-white font-bold flex items-center justify-center cursor-pointer focus:outline-none shadow-sm"
                 title="MFS User Profile & eKYC"
               >
-                {user.avatar || 'U'}
+                {user.avatar || '2'}
               </button>
 
               {isProfileOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-gray-200 bg-white shadow-xl z-50 overflow-hidden">
-                  <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
-                    <p className="font-semibold text-gray-800 truncate">{user.name}</p>
-                    <p className="text-xs text-gray-500 truncate">{user.mobile}</p>
-                  </div>
-
-                  <div className="py-2">
-                    <button
-                      type="button"
-                      onClick={handleProfileClick}
-                      className="w-full flex items-center gap-3 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition"
-                    >
-                      <User className="w-4 h-4" />
-                      <span>{lang.profile}</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={handleSettingsClick}
-                      className="w-full flex items-center gap-3 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition"
-                    >
-                      <Settings className="w-4 h-4" />
-                      <span>{lang.settings}</span>
-                    </button>
-
-                    <div className="my-2 border-t border-gray-100" />
-
-                    <button
-                      type="button"
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-4 py-2 text-left text-sm font-semibold text-red-600 hover:bg-red-50 transition"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      <span>{lang.logout}</span>
-                    </button>
-                  </div>
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 overflow-visible">
+                  <button
+                    type="button"
+                    onClick={handleProfileClick}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                  >
+                    <User className="w-4 h-4" />
+                    <span>{lang.profile}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleSettingsClick}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                  >
+                    <Settings className="w-4 h-4" />
+                    <span>{lang.settings}</span>
+                  </button>
+                  <div className="border-t border-gray-100 my-1" />
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>{lang.logout}</span>
+                  </button>
                 </div>
               )}
             </div>
