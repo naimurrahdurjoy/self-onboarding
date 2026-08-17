@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Globe, LogOut, User, Settings } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import logoImage from '../../image/logo.png'
 
 const t = {
@@ -12,7 +12,7 @@ const t = {
 export default function Header({ language, setLanguage }) {
   const { user, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
-  const location = require('react-router-dom').useLocation()
+  const location = useLocation()
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const profileMenuRef = useRef(null)
   const lang = t[language] || t.en
