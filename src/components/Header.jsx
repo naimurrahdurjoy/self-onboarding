@@ -12,14 +12,14 @@ const t = {
 export default function Header({ language, setLanguage }) {
   const { user, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
-  const [showProfileMenu, setShowProfileMenu] = useState(false)
-  const menuRef = useRef(null)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const profileMenuRef = useRef(null)
   const lang = t[language] || t.en
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setShowProfileMenu(false)
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setIsProfileOpen(false)
       }
     }
 
@@ -29,13 +29,17 @@ export default function Header({ language, setLanguage }) {
 
   const handleLogout = () => {
     logout()
-    setShowProfileMenu(false)
+    setIsProfileOpen(false)
     navigate('/login')
   }
 
   const handleProfileClick = () => {
     navigate('/profile')
-    setShowProfileMenu(false)
+    setIsProfileOpen(false)
+  }
+
+  const handleSettingsClick = () => {
+    setIsProfileOpen(false)
   }
 
   const handleHomeClick = () => {
@@ -63,7 +67,7 @@ export default function Header({ language, setLanguage }) {
             <select
               value={language}
               onChange={e => setLanguage(e.target.value)}
-              className="border border-gray-300 rounded px-2 py-1 text-sm"
+              className="border border-gray-300 rounded px-2 py-1 text-sm bg-white"
             >
               <option value="en">English</option>
               <option value="bn">বাংলা</option>
@@ -71,46 +75,53 @@ export default function Header({ language, setLanguage }) {
           </div>
 
           {isAuthenticated && user && (
-            <div ref={menuRef} className="relative">
+            <div ref={profileMenuRef} className="relative">
               <button
-                onClick={() => setShowProfileMenu(!showProfileMenu)}
-                className="flex items-center gap-2 rounded-full bg-primary px-2 py-1.5 text-white hover:bg-opacity-90 transition"
+                type="button"
+                aria-expanded={isProfileOpen}
+                aria-haspopup="menu"
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm hover:bg-opacity-90 transition shadow-sm ring-2 ring-white"
                 title="MFS User Profile & eKYC"
               >
-                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-bold text-sm">
-                  {user.avatar}
-                </span>
-                <span className="hidden sm:inline text-sm font-medium">{lang.profile}</span>
+                {user.avatar || 'U'}
               </button>
 
-              {showProfileMenu && (
-                <div className="absolute right-0 top-12 bg-white rounded-lg shadow-xl border border-gray-200 w-48 overflow-hidden z-50">
-                  <div className="px-4 py-3 bg-gray-50 border-b">
-                    <p className="font-bold text-gray-700">{user.name}</p>
-                    <p className="text-xs text-gray-600">{user.mobile}</p>
+              {isProfileOpen && (
+                <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-gray-200 bg-white shadow-xl z-50 overflow-hidden">
+                  <div className="px-4 py-3 border-b border-gray-100 bg-gray-50">
+                    <p className="font-semibold text-gray-800 truncate">{user.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{user.mobile}</p>
                   </div>
+
                   <div className="py-2">
                     <button
+                      type="button"
                       onClick={handleProfileClick}
-                      className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition text-left text-gray-700"
+                      className="w-full flex items-center gap-3 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition"
                     >
                       <User className="w-4 h-4" />
-                      <span className="text-sm">{lang.profile}</span>
+                      <span>{lang.profile}</span>
                     </button>
+
                     <button
-                      onClick={() => setShowProfileMenu(false)}
-                      className="w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-100 transition text-left text-gray-700"
+                      type="button"
+                      onClick={handleSettingsClick}
+                      className="w-full flex items-center gap-3 px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 transition"
                     >
                       <Settings className="w-4 h-4" />
-                      <span className="text-sm">{lang.settings}</span>
+                      <span>{lang.settings}</span>
                     </button>
-                    <hr className="my-2" />
+
+                    <div className="my-2 border-t border-gray-100" />
+
                     <button
+                      type="button"
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-4 py-2 hover:bg-red-100 transition text-left text-red-600 font-bold"
+                      className="w-full flex items-center gap-3 px-4 py-2 text-left text-sm font-semibold text-red-600 hover:bg-red-50 transition"
                     >
                       <LogOut className="w-4 h-4" />
-                      <span className="text-sm">{lang.logout}</span>
+                      <span>{lang.logout}</span>
                     </button>
                   </div>
                 </div>
