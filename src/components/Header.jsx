@@ -12,9 +12,13 @@ const t = {
 export default function Header({ language, setLanguage }) {
   const { user, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
+  const location = require('react-router-dom').useLocation()
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const profileMenuRef = useRef(null)
   const lang = t[language] || t.en
+
+  // Determine if current route is login (or other public routes)
+  const isAuthRoute = ['/login', '/register'].includes(location.pathname)
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -73,7 +77,8 @@ export default function Header({ language, setLanguage }) {
             </button>
           </div>
 
-          {isAuthenticated && user && (
+          {/* Only show avatar when authenticated and not on auth pages like /login */}
+          {isAuthenticated && user && !isAuthRoute && (
             <div ref={profileMenuRef} className="relative">
               <button
                 type="button"
@@ -85,7 +90,12 @@ export default function Header({ language, setLanguage }) {
               </button>
 
               {isProfileOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 overflow-visible">
+                <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-[9999] overflow-visible">
+                  <div className="px-4 py-2 border-b border-gray-100 bg-gray-50">
+                    <p className="font-semibold text-gray-800 truncate">{user.name}</p>
+                    <p className="text-xs text-gray-500 truncate">{user.mobile}</p>
+                  </div>
+
                   <button
                     type="button"
                     onClick={handleProfileClick}
