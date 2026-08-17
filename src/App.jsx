@@ -32,7 +32,7 @@ function AppContent() {
           {/* Public Routes */}
           <Route 
             path="/login" 
-            element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login language={language} />} 
+            element={<Login language={language} />} 
           />
           <Route 
             path="/register" 
