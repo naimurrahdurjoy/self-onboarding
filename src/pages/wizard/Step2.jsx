@@ -120,17 +120,17 @@ export default function Step2({ prev, next, data, setData, language }) {
 
       <div className="space-y-4">
         {(personal.dedupeStatus || personal.cibStatus) && (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {personal.dedupeStatus && (
-              <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg border border-green-200">
-                <Shield className="w-5 h-5 text-green-600" />
-                <span className="text-sm font-medium text-green-700">{lang.dedupeCleared}</span>
+              <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg border border-green-200 text-xs sm:text-sm whitespace-normal break-words h-auto min-h-[38px] px-3 py-2">
+                <Shield className="w-5 h-5 text-green-600 flex-shrink-0" />
+                <span className="font-medium text-green-700">{lang.dedupeCleared}</span>
               </div>
             )}
             {personal.cibStatus && (
-              <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg border border-green-200">
-                <CheckCircle className="w-5 h-5 text-green-600" />
-                <span className="text-sm font-medium text-green-700">{lang.cibCleared}</span>
+              <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg border border-green-200 text-xs sm:text-sm whitespace-normal break-words h-auto min-h-[38px] px-3 py-2">
+                <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                <span className="font-medium text-green-700">{lang.cibCleared}</span>
               </div>
             )}
           </div>
@@ -147,25 +147,25 @@ export default function Step2({ prev, next, data, setData, language }) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.nidFront}</label>
-            <div className="flex items-center gap-2">
-              <input type="file" accept="image/*" onChange={handleUpload(setNidFrontFile)} className="flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
-              {nidFrontFile && <Upload className="w-5 h-5 text-green-600" />}
+            <div className="flex flex-col sm:flex-row items-stretch gap-2">
+              <input type="file" accept="image/*" onChange={handleUpload(setNidFrontFile)} className="w-full flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
+              {nidFrontFile && <Upload className="w-5 h-5 text-green-600 self-center" />}
             </div>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.nidBack}</label>
-            <div className="flex items-center gap-2">
-              <input type="file" accept="image/*" onChange={handleUpload(setNidBackFile)} className="flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
-              {nidBackFile && <Upload className="w-5 h-5 text-green-600" />}
+            <div className="flex flex-col sm:flex-row items-stretch gap-2">
+              <input type="file" accept="image/*" onChange={handleUpload(setNidBackFile)} className="w-full flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
+              {nidBackFile && <Upload className="w-5 h-5 text-green-600 self-center" />}
             </div>
           </div>
         </div>
 
         <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col items-stretch gap-3">
             <div className="flex items-center gap-2">
               <Camera className="w-5 h-5 text-blue-600" />
               <span className="text-sm font-medium text-gray-700">{lang.liveness}</span>
@@ -176,7 +176,7 @@ export default function Step2({ prev, next, data, setData, language }) {
                 setLiveness(nextVal)
                 updatePersonal({ livenessVerified: nextVal })
               }}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition ${
+              className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition ${
                 liveness ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >

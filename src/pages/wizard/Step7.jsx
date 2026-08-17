@@ -88,11 +88,11 @@ export default function Step7({ prev, data, language }) {
 
           <div className="p-4 bg-white rounded-lg border border-gray-200 mb-4 shadow-sm">
             <h3 className="font-semibold text-gray-900 mb-3">{lang.summary}</h3>
-            <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
               {summaryRows.map(([label, value]) => (
-                <div key={label}>
+                <div key={label} className="min-w-0 break-words">
                   <span className="text-gray-600">{label}:</span>{' '}
-                  <span className="font-medium">{value}</span>
+                  <span className="font-medium break-words">{value}</span>
                 </div>
               ))}
             </div>
@@ -123,13 +123,13 @@ export default function Step7({ prev, data, language }) {
                 const isCurrent = stageNum === currentStage
                 return (
                   <div key={idx}>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-start gap-4">
                       <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white ${isCompleted ? 'bg-green-600' : 'bg-gray-300'}`}>
                         {isCompleted ? <CheckCircle className="w-6 h-6" /> : isCurrent ? <Clock className="w-6 h-6 animate-spin" /> : stageNum}
                       </div>
-                      <div className="flex-1">
-                        <div className={`font-medium ${isCompleted || isCurrent ? 'text-gray-900' : 'text-gray-500'}`}>{stage.en}</div>
-                        <div className="text-sm text-gray-600">{stage.bn}</div>
+                      <div className="flex-1 min-w-0">
+                        <div className={`font-medium break-words ${isCompleted || isCurrent ? 'text-gray-900' : 'text-gray-500'}`}>{stage.en}</div>
+                        <div className="text-sm text-gray-600 break-words">{stage.bn}</div>
                       </div>
                     </div>
                     {idx < stages.length - 1 && <div className={`ml-5 w-1 h-4 ${isCompleted ? 'bg-green-600' : 'bg-gray-300'}`} />}

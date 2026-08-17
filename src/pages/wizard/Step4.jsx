@@ -73,11 +73,11 @@ export default function Step4({ prev, next, data, setData, language }) {
   const MetricCard = ({ title, formula, value, suffix = '৳', highlight }) => (
     <div className={`p-4 rounded-lg border shadow-sm ${highlight ? 'bg-green-50 border-green-200' : 'bg-white border-gray-200'}`}>
       <div className="flex items-center gap-2 mb-1">
-        <span className="text-sm font-medium text-gray-700">{title}</span>
-        <Info className="w-4 h-4 text-gray-400" title={formula} />
+        <span className="text-sm font-medium text-gray-700 break-words">{title}</span>
+        <Info className="w-4 h-4 text-gray-400 flex-shrink-0" title={formula} />
       </div>
-      <p className="text-xs text-gray-500 mb-2">{formula}</p>
-      <div className={`text-2xl font-bold ${highlight ? 'text-green-600' : 'text-primary'}`}>
+      <p className="text-xs text-gray-500 mb-2 break-words">{formula}</p>
+      <div className={`text-lg sm:text-2xl font-bold break-all ${highlight ? 'text-green-600' : 'text-primary'}`}>
         {suffix === '৳' ? `৳ ${value.toLocaleString()}` : `${value}${suffix}`}
       </div>
     </div>
@@ -101,14 +101,14 @@ export default function Step4({ prev, next, data, setData, language }) {
           <MetricCard title={lang.approvedAmount} formula="min(Eligible, Requested)" value={out.approvedAmount} highlight />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 bg-white rounded-lg border border-gray-200">
             <div className="text-sm text-gray-600">{lang.totalDebt}</div>
-            <div className="text-xl font-bold text-gray-900">৳ {out.totalMonthlyDebt.toLocaleString()}</div>
+            <div className="text-lg sm:text-2xl font-bold text-gray-900 break-all">৳ {out.totalMonthlyDebt.toLocaleString()}</div>
           </div>
           <div className="p-4 bg-white rounded-lg border border-gray-200">
             <div className="text-sm text-gray-600">{lang.proposedEmi}</div>
-            <div className="text-xl font-bold text-gray-900">৳ {out.proposedEmi.toLocaleString()}</div>
+            <div className="text-lg sm:text-2xl font-bold text-gray-900 break-all">৳ {out.proposedEmi.toLocaleString()}</div>
           </div>
         </div>
 

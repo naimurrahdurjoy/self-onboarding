@@ -8,9 +8,10 @@ import AdminView from './dashboard/AdminView'
 
 const t = {
   en: {
-    clientPortal: 'Client Portal',
+    clientPortal: 'Dear Customer',
     clientSubtitle: 'Welcome to your personal loan onboarding portal',
-    continueWizard: 'Continue Onboarding Wizard',
+    continueWizard: 'Continue Self Onboarding',
+    continue:'Continue',
     wizardDescription: 'Complete your loan application',
     applicationTracker: 'Application Status Tracker',
     trackerDescription: 'Live tracking of your loan application',
@@ -24,9 +25,10 @@ const t = {
     step: 'Step'
   },
   bn: {
-    clientPortal: 'ক্লায়েন্ট পোর্টাল',
+    clientPortal: 'সম্মানিত গ্রাহক',
     clientSubtitle: 'আপনার ব্যক্তিগত ঋণ অনবোর্ডিং পোর্টালে স্বাগতম',
-    continueWizard: 'অনবোর্ডিং উইজার্ড অব্যাহত রাখুন',
+    continueWizard: 'আপনার আবেদন সম্পন্ন করুন',
+    continue:'চালিয়ে যান',
     wizardDescription: 'আপনার ঋণ আবেদন সম্পূর্ণ করুন',
     applicationTracker: 'আবেদন ট্র্যাকার',
     trackerDescription: 'আপনার ঋণ আবেদনের স্থিতি দেখুন',
@@ -68,39 +70,39 @@ export default function Dashboard({ language }) {
 
   if (user?.role === 'Client') {
     return (
-      <div className="max-w-6xl mx-auto">
+      <div className="w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 overflow-x-hidden">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-2">{lang.clientPortal}</h1>
-          <p className="text-gray-600">{lang.clientSubtitle}</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-2 break-words">{lang.clientPortal}</h1>
+          <p className="text-gray-600 text-sm sm:text-base break-words">{lang.clientSubtitle}</p>
         </div>
 
         {/* Quick Action Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch mb-8">
           {/* Wizard Card - Main Action */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition cursor-pointer border-2 border-primary border-opacity-20" onClick={() => navigate('/wizard')}>
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h3 className="text-2xl font-bold text-primary mb-1">{lang.continueWizard}</h3>
-                <p className="text-gray-600 text-sm">{lang.wizardDescription}</p>
+          <div className="w-full bg-white rounded-2xl shadow-lg p-5 sm:p-8 hover:shadow-xl transition cursor-pointer border-2 border-primary border-opacity-20" onClick={() => navigate('/wizard')}>
+            <div className="flex items-start justify-between mb-4 gap-3">
+              <div className="min-w-0 flex-1">
+                <h3 className="text-xl sm:text-2xl font-bold text-primary mb-1 break-words">{lang.continueWizard}</h3>
+                <p className="text-gray-600 text-sm break-words">{lang.wizardDescription}</p>
               </div>
-              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary text-2xl">
+              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary text-2xl shrink-0">
                 📋
               </div>
             </div>
             <button className="w-full bg-primary text-white py-3 rounded-lg hover:bg-opacity-90 transition font-bold">
-              {lang.continueWizard}
+              {lang.continue}
             </button>
           </div>
 
           {/* Application Tracker Card */}
-          <div className="bg-white rounded-2xl shadow-lg p-8 border-2 border-green-200">
-            <div className="flex items-start justify-between mb-6">
-              <div>
-                <h3 className="text-2xl font-bold text-primary mb-1">{lang.applicationTracker}</h3>
-                <p className="text-gray-600 text-sm">{lang.trackerDescription}</p>
+          <div className="w-full bg-white rounded-2xl shadow-lg p-5 sm:p-8 border-2 border-green-200">
+            <div className="flex items-start justify-between mb-6 gap-3">
+              <div className="min-w-0 flex-1">
+                <h3 className="text-xl sm:text-2xl font-bold text-primary mb-1 break-words">{lang.applicationTracker}</h3>
+                <p className="text-gray-600 text-sm break-words">{lang.trackerDescription}</p>
               </div>
-              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-primary text-2xl">
+              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-primary text-2xl shrink-0">
                 ✓
               </div>
             </div>
@@ -116,7 +118,7 @@ export default function Dashboard({ language }) {
                     }`}>
                       {status === 'completed' ? '✓' : idx + 1}
                     </div>
-                    <span className={`font-medium ${
+                    <span className={`font-medium break-words ${
                       status === 'completed' ? 'text-green-600' :
                       status === 'in-progress' ? 'text-primary font-bold' :
                       'text-gray-500'

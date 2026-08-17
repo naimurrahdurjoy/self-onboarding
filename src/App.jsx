@@ -22,12 +22,12 @@ function AppContent() {
   }
 
   return (
-    <div className="min-h-screen bg-lightgreen text-gray-800">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-lightgreen text-gray-800">
       {isAuthenticated && (
         <Header language={language} setLanguage={setLanguage} />
       )}
 
-      <main className={isAuthenticated ? 'p-4' : ''}>
+      <main className={isAuthenticated ? 'w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 overflow-x-hidden' : 'w-full max-w-full overflow-x-hidden'}>
         <Routes>
           {/* Public Routes */}
           <Route 
@@ -66,7 +66,7 @@ function AppContent() {
 
       {isAuthenticated && (
         <footer className="p-4 text-center text-sm text-gray-500">
-          SME Loan Onboarding Prototype © 2026
+          ALL RIGHTS RESERVED © Naimur2026
         </footer>
       )}
     </div>

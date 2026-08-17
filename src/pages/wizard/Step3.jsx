@@ -73,7 +73,7 @@ export default function Step3({ prev, next, data, setData, language }) {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.loanType}</label>
             <select value={form.loanType} onChange={e => update({ loanType: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
@@ -89,7 +89,7 @@ export default function Step3({ prev, next, data, setData, language }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.interestRate}</label>
             <input type="number" value={form.interestRate} readOnly className="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-gray-600" />
@@ -100,9 +100,9 @@ export default function Step3({ prev, next, data, setData, language }) {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.tenure}</label>
-            <div className="flex gap-2">
-              <input type="number" value={form.tenureValue} onChange={e => update({ tenureValue: parseFloat(e.target.value) || 0 })} className="flex-1 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-              <select value={form.tenureUnit} onChange={e => update({ tenureUnit: e.target.value })} className="border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+            <div className="flex flex-col sm:flex-row gap-2">
+              <input type="number" value={form.tenureValue} onChange={e => update({ tenureValue: parseFloat(e.target.value) || 0 })} className="w-full flex-1 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+              <select value={form.tenureUnit} onChange={e => update({ tenureUnit: e.target.value })} className="w-full sm:w-auto border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                 <option value="Months">{lang.months}</option>
                 <option value="Years">{lang.years}</option>
               </select>
@@ -110,7 +110,7 @@ export default function Step3({ prev, next, data, setData, language }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.monthlyIncome}</label>
             <input type="number" value={form.monthlyIncome} onChange={e => update({ monthlyIncome: parseFloat(e.target.value) || 0 })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
@@ -127,7 +127,7 @@ export default function Step3({ prev, next, data, setData, language }) {
 
         <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
           <p className="text-sm font-semibold text-gray-700 mb-3">Asset & Working Capital Metrics</p>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               ['cash', lang.cash],
               ['stock', lang.stock],

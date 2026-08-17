@@ -30,21 +30,21 @@ export default function Header({ language, setLanguage }) {
   }
 
   return (
-    <header className="bg-white border-b-2 border-primary shadow-md">
-      <div className="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
+    <header className="w-full max-w-full overflow-x-hidden bg-white border-b-2 border-primary shadow-md">
+      <div className="max-w-4xl mx-auto px-4 py-2 flex items-center justify-between gap-3 overflow-x-hidden">
         <button
           onClick={handleHomeClick}
-          className="hover:opacity-90 transition cursor-pointer"
+          className="hover:opacity-90 transition cursor-pointer flex-shrink-0 overflow-hidden"
           title="Home Dashboard"
         >
           <img
             src={logoImage}
             alt="Disha SME Loan Portal"
-            className="h-14 w-auto object-contain"
+            className="h-12 sm:h-14 w-auto max-w-[120px] object-contain"
           />
         </button>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-2 sm:gap-6 min-w-0">
           <div className="flex items-center gap-2">
             <Globe className="w-4 h-4 text-gray-600" />
             <select

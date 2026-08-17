@@ -191,14 +191,14 @@ export default function ROView({ language }) {
   }
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
+    <div className="w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 space-y-6 overflow-x-hidden">
       <div>
-        <h1 className="text-4xl font-bold text-primary">{lang.roTitle}</h1>
-        <p className="text-gray-600">{lang.roSubtitle}</p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-primary break-words">{lang.roTitle}</h1>
+        <p className="text-gray-600 text-sm sm:text-base break-words">{lang.roSubtitle}</p>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-md border-l-4 border-primary">
           <div className="text-sm text-gray-700 font-medium">{lang.totalLeads}</div>
           <div className="text-3xl font-bold text-primary mt-2">120</div>
@@ -228,42 +228,44 @@ export default function ROView({ language }) {
           <p className="text-sm text-gray-600 mt-1">5 SME applications ready for verification</p>
         </div>
         
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div className="w-full overflow-x-auto shadow-sm rounded-lg border border-gray-200">
+          <table className="w-full min-w-[720px]">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">{lang.applicant}</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">{lang.business}</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">{lang.location}</th>
-                <th className="px-6 py-3 text-right text-sm font-semibold text-gray-700">{lang.amount}</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">{lang.status}</th>
-                <th className="px-6 py-3 text-center text-sm font-semibold text-gray-700">{lang.actions}</th>
+                <th className="whitespace-nowrap px-3 py-2 text-left text-xs sm:text-sm font-semibold text-gray-700">{lang.applicant}</th>
+                <th className="whitespace-nowrap px-3 py-2 text-left text-xs sm:text-sm font-semibold text-gray-700">{lang.business}</th>
+                <th className="whitespace-nowrap px-3 py-2 text-left text-xs sm:text-sm font-semibold text-gray-700">{lang.location}</th>
+                <th className="whitespace-nowrap px-3 py-2 text-right text-xs sm:text-sm font-semibold text-gray-700">{lang.amount}</th>
+                <th className="whitespace-nowrap px-3 py-2 text-left text-xs sm:text-sm font-semibold text-gray-700">{lang.status}</th>
+                <th className="whitespace-nowrap px-3 py-2 text-center text-xs sm:text-sm font-semibold text-gray-700">{lang.actions}</th>
               </tr>
             </thead>
             <tbody>
               {mockLeads.map((lead) => (
                 <tr key={lead.id} className="border-b border-gray-200 hover:bg-gray-50 transition">
-                  <td className="px-6 py-4">
+                  <td className="whitespace-nowrap px-3 py-2 text-xs sm:text-sm">
                     <div className="font-medium text-gray-900">{lead.applicant}</div>
-                    <div className="text-xs text-gray-500">{lead.mobile}</div>
+                    <div className="text-[10px] sm:text-xs text-gray-500">{lead.mobile}</div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-700">{lead.business}</td>
-                  <td className="px-6 py-4 text-sm text-gray-700">{lead.location}</td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="whitespace-nowrap px-3 py-2 text-xs sm:text-sm text-gray-700">{lead.business}</td>
+                  <td className="whitespace-nowrap px-3 py-2 text-xs sm:text-sm text-gray-700">{lead.location}</td>
+                  <td className="whitespace-nowrap px-3 py-2 text-right text-xs sm:text-sm">
                     <div className="font-semibold text-gray-900">৳ {lead.amount.toLocaleString()}</div>
-                    <div className="text-xs text-gray-500">Requested</div>
+                    <div className="text-[10px] sm:text-xs text-gray-500">Requested</div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="whitespace-nowrap px-3 py-2 text-xs sm:text-sm">
                     <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">{lead.status}</span>
                   </td>
-                  <td className="px-6 py-4 text-center">
-                    <button
-                      onClick={() => setSelectedLead(lead)}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-opacity-90 transition"
-                    >
-                      <Eye className="w-4 h-4" />
-                      {lang.inspect}
-                    </button>
+                  <td className="px-3 py-2 text-center">
+                    <div className="flex flex-wrap items-center justify-center gap-2">
+                      <button
+                        onClick={() => setSelectedLead(lead)}
+                        className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs sm:text-sm font-medium rounded-lg hover:bg-opacity-90 transition"
+                      >
+                        <Eye className="w-4 h-4" />
+                        {lang.inspect}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

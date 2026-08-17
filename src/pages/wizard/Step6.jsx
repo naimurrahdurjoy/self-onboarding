@@ -71,7 +71,7 @@ export default function Step6({ prev, next, data, setData, language }) {
             </div>
 
             <div className="space-y-3">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{lang.bankName}</label>
                   <select value={loan.bank} onChange={e => updateLoan(loan.id, 'bank', e.target.value)} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
@@ -87,7 +87,7 @@ export default function Step6({ prev, next, data, setData, language }) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{lang.outstanding}</label>
                   <input type="number" value={loan.outstanding} onChange={e => updateLoan(loan.id, 'outstanding', parseFloat(e.target.value) || 0)} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
@@ -98,19 +98,19 @@ export default function Step6({ prev, next, data, setData, language }) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{lang.sanctionAdvice}</label>
-                  <div className="flex items-center gap-2">
-                    <input type="file" accept=".pdf,.jpg,.png" onChange={e => updateLoan(loan.id, 'sanctionFile', e.target.files[0])} className="flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
-                    {loan.sanctionFile && <Upload className="w-4 h-4 text-green-600" />}
+                  <div className="flex flex-col sm:flex-row items-stretch gap-2">
+                    <input type="file" accept=".pdf,.jpg,.png" onChange={e => updateLoan(loan.id, 'sanctionFile', e.target.files[0])} className="w-full flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
+                    {loan.sanctionFile && <Upload className="w-4 h-4 text-green-600 self-center" />}
                   </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{lang.statement}</label>
-                  <div className="flex items-center gap-2">
-                    <input type="file" accept=".pdf,.jpg,.png" onChange={e => updateLoan(loan.id, 'statementFile', e.target.files[0])} className="flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
-                    {loan.statementFile && <Upload className="w-4 h-4 text-green-600" />}
+                  <div className="flex flex-col sm:flex-row items-stretch gap-2">
+                    <input type="file" accept=".pdf,.jpg,.png" onChange={e => updateLoan(loan.id, 'statementFile', e.target.files[0])} className="w-full flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
+                    {loan.statementFile && <Upload className="w-4 h-4 text-green-600 self-center" />}
                   </div>
                 </div>
               </div>

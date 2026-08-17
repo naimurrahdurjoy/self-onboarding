@@ -28,7 +28,7 @@ const t = {
     nidBack: 'NID Back',
     liveSelfie: 'Live Selfie / Liveness Check',
     submitProfile: 'Submit Profile / Verify eKYC',
-    editProfile: 'Edit Profile / Recalibrate eKYC',
+    editProfile: 'Edit Profile',
     save: 'Save Changes',
     cancel: 'Cancel',
     uploadFile: 'Upload File',

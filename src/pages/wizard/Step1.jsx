@@ -83,17 +83,17 @@ export default function Step1({ next, data, setData, language }) {
               <label className="block text-sm font-medium text-gray-700">{lang.otp}</label>
               <Info className="w-4 h-4 text-gray-500 cursor-help" title={lang.otpInfo} />
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 value={otp}
                 onChange={e => setOtp(e.target.value.slice(0, 6))}
-                className="flex-1 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full flex-1 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 maxLength="6"
                 placeholder="000000"
               />
               <button
                 onClick={verifyOtp}
-                className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition font-medium"
+                className="w-full sm:w-auto bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition font-medium"
               >
                 {lang.verifyOtp}
               </button>

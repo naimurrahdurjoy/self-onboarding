@@ -103,7 +103,7 @@ export default function Step5({ prev, next, data, setData, language }) {
       <h2 className="text-2xl font-bold mb-4 text-primary">{lang.tradeEntity}</h2>
 
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.operationMode}</label>
             <select value={form.operationMode} onChange={e => update({ operationMode: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
@@ -112,22 +112,22 @@ export default function Step5({ prev, next, data, setData, language }) {
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.proposalType}</label>
-            <input value={form.proposalType} readOnly className="w-full border border-gray-300 p-2 rounded-lg bg-blue-50 text-blue-800 font-medium" />
+            <input value={form.proposalType} readOnly className="w-full border border-gray-300 p-2 rounded-lg bg-blue-50 text-blue-800 font-medium text-xs sm:text-sm whitespace-normal break-words h-auto min-h-[38px] px-3 py-2" />
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.businessName}</label>
             <input value={form.businessName} readOnly className="w-full border border-gray-300 p-2 rounded-lg bg-gray-50" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.entityType}</label>
-            <input value={form.entityType} readOnly className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100 text-gray-600 font-medium" />
+            <input value={form.entityType} readOnly className="w-full border border-gray-300 p-2 rounded-lg bg-gray-100 text-gray-600 font-medium text-xs sm:text-sm whitespace-normal break-words h-auto min-h-[38px] px-3 py-2" />
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.businessProduct}</label>
             <input value={form.businessProduct} onChange={e => update({ businessProduct: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
@@ -142,7 +142,7 @@ export default function Step5({ prev, next, data, setData, language }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.ownership}</label>
             <select value={form.ownership} onChange={e => update({ ownership: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
@@ -170,14 +170,14 @@ export default function Step5({ prev, next, data, setData, language }) {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">{lang.tradeLicense}</label>
-          <div className="flex items-center gap-2">
-            <input type="file" accept="image/*,.pdf" onChange={handleTradeUpload} className="flex-1 border border-gray-300 p-2 rounded-lg" />
-            <Upload className="w-5 h-5 text-gray-500" />
+          <div className="flex flex-col sm:flex-row items-stretch gap-2">
+            <input type="file" accept="image/*,.pdf" onChange={handleTradeUpload} className="w-full flex-1 border border-gray-300 p-2 rounded-lg" />
+            <Upload className="w-5 h-5 text-gray-500 self-center" />
           </div>
           {scanning && <p className="text-sm text-blue-600 mt-1 animate-pulse">{lang.scanning}</p>}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.tradeNumber}</label>
             <input value={form.tradeNumber || ''} onChange={e => update({ tradeNumber: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
@@ -196,11 +196,11 @@ export default function Step5({ prev, next, data, setData, language }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.eTin}</label>
-            <div className="flex gap-2">
-              <input value={form.eTin || ''} onChange={e => update({ eTin: e.target.value })} className="flex-1 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+            <div className="flex flex-col sm:flex-row gap-2">
+              <input value={form.eTin || ''} onChange={e => update({ eTin: e.target.value })} className="w-full flex-1 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
               {form.eTinVerified && (
                 <span className="flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-lg text-xs font-medium whitespace-nowrap">
                   <CheckCircle className="w-3 h-3" /> {lang.eTinVerified}
@@ -227,7 +227,7 @@ export default function Step5({ prev, next, data, setData, language }) {
           <textarea value={form.registeredAddress || ''} onChange={e => update({ registeredAddress: e.target.value })} rows={2} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.mobile}</label>
             <input value={form.mobile} readOnly className="w-full border border-gray-300 p-2 rounded-lg bg-gray-50" />

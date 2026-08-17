@@ -75,10 +75,10 @@ export default function Login({ language = 'en' }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-lightgreen via-white to-lightgreen flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-gradient-to-b from-lightgreen via-white to-lightgreen flex items-center justify-center p-4 relative overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-32 bg-primary opacity-5 rounded-b-3xl" />
 
-      <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative z-10">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-5 sm:p-8 relative z-10">
         <div className="flex justify-center mb-8">
           <img
             src={logoImage}
