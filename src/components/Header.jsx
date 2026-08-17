@@ -47,8 +47,8 @@ export default function Header({ language, setLanguage }) {
   }
 
   return (
-    <header className="w-full max-w-full overflow-x-hidden bg-white border-b-2 border-primary shadow-md">
-      <div className="max-w-4xl mx-auto px-4 py-2 flex items-center justify-between gap-3 overflow-x-hidden">
+    <header className="w-full max-w-full overflow-visible bg-white border-b-2 border-primary shadow-md">
+      <div className="max-w-4xl mx-auto px-4 py-2 flex items-center justify-between gap-3 overflow-visible">
         <button
           onClick={handleHomeClick}
           className="hover:opacity-90 transition cursor-pointer flex-shrink-0 overflow-hidden"

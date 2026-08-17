@@ -32,11 +32,11 @@ function AppContent() {
           {/* Public Routes */}
           <Route 
             path="/login" 
-            element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login language={language} />} 
+            element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login language={language} />} 
           />
           <Route 
             path="/register" 
-            element={isAuthenticated ? <Navigate to="/dashboard" /> : <Registration language={language} />} 
+            element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Registration language={language} />} 
           />
 
           {/* Protected Routes */}
@@ -56,11 +56,11 @@ function AppContent() {
           {/* Root & fallback routes */}
           <Route 
             path="/" 
-            element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login language={language} />} 
+            element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} 
           />
           <Route 
             path="*" 
-            element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} 
+            element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Navigate to="/login" replace />} 
           />
         </Routes>
       </main>
