@@ -79,8 +79,8 @@ export default function Step3({ prev, next, data, setData, language, isVerifiedU
     navigate('/dashboard')
   }
 
-  const verifyAndContinue = () => {
-    verifyEKYC()
+  const verifyAndContinue = (documents) => {
+    verifyEKYC(documents)
     setTimeout(() => {
       setShowOutcome(false)
       next(2)

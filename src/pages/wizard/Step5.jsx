@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Upload, CheckCircle } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import { BRANCHES, OPERATION_MODES, OWNERSHIP_OPTIONS } from '../../constants/options'
 
 const t = {
@@ -75,7 +75,6 @@ const OCR_TRADE = {
 }
 
 export default function Step5({ prev, next, data, setData, language }) {
-  const [scanning, setScanning] = useState(false)
   const form = {
     entityType: 'PROPRIETORSHIP',
     proposalType: data.personal?.dedupeStatus === 'cleared' ? 'NEW / SANCTION' : 'PENDING REVIEW',
@@ -86,17 +85,6 @@ export default function Step5({ prev, next, data, setData, language }) {
   const lang = t[language] || t.en
 
   const update = (fields) => setData('trade', fields)
-
-  const handleTradeUpload = (e) => {
-    const f = e.target.files[0]
-    if (f) {
-      setScanning(true)
-      setTimeout(() => {
-        setScanning(false)
-        update({ ...OCR_TRADE, eTinVerified: true })
-      }, 1500)
-    }
-  }
 
   return (
     <div>
@@ -166,15 +154,6 @@ export default function Step5({ prev, next, data, setData, language }) {
               </button>
             </div>
           </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">{lang.tradeLicense}</label>
-          <div className="flex flex-col sm:flex-row items-stretch gap-2">
-            <input type="file" accept="image/*,.pdf" onChange={handleTradeUpload} className="w-full flex-1 border border-gray-300 p-2 rounded-lg" />
-            <Upload className="w-5 h-5 text-gray-500 self-center" />
-          </div>
-          {scanning && <p className="text-sm text-blue-600 mt-1 animate-pulse">{lang.scanning}</p>}
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

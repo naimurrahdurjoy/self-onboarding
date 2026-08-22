@@ -196,12 +196,18 @@ export function AuthProvider({ children }) {
     localStorage.setItem('userProfile', JSON.stringify(updated))
   }
 
-  const verifyEKYC = () => {
+  const updateUserDocuments = (documents) => {
+    const updated = { ...user, uploadedDocuments: { ...(user?.uploadedDocuments || {}), ...documents } }
+    setUser(updated)
+    localStorage.setItem('user', JSON.stringify(updated))
+  }
+
+  const verifyEKYC = (documents = {}) => {
     setEKYCStatus('verifying')
     // Simulate 1.5 second verification
     setTimeout(() => {
       setEKYCStatus('verified')
-      const updated = { ...user, eKYCVerified: true, isEkycVerified: true, nidVerified: true, profileData: userProfile }
+      const updated = { ...user, uploadedDocuments: { ...(user?.uploadedDocuments || {}), ...documents }, eKYCVerified: true, isEkycVerified: true, nidVerified: true, isNidVerified: true, profileData: userProfile }
       setUser(updated)
       setApplicationStatus('eKYC Verified')
       localStorage.setItem('user', JSON.stringify(updated))
@@ -233,6 +239,7 @@ export function AuthProvider({ children }) {
     logout,
     updateUserProfile,
     updateProfileDetails,
+    updateUserDocuments,
     verifyEKYC,
     updateApplicationStatus,
     updateLoanApplicationData
