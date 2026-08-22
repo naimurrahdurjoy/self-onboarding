@@ -55,8 +55,8 @@ export default function Login({ language = 'en' }) {
       setPassword(e.detail.password)
       setUseOTP(false)
     }
-    window.addEventListener('disha-quickfill', handler)
-    return () => window.removeEventListener('disha-quickfill', handler)
+    window.addEventListener('durjoy-quickfill', handler)
+    return () => window.removeEventListener('durjoy-quickfill', handler)
   }, [])
 
   const handleLogin = () => {
@@ -82,7 +82,7 @@ export default function Login({ language = 'en' }) {
         <div className="flex justify-center mb-8">
           <img
             src={logoImage}
-            alt="Disha SME Loan Portal"
+            alt="দুর্জয় Logo"
             className="h-28 w-auto object-contain"
           />
         </div>

@@ -1,8 +1,8 @@
-# 🎉 Disha SME Loan Platform - Production-Ready Implementation
+# 🎉 দুর্জয় SME Loan Platform - Production-Ready Implementation
 
 ## 📋 Project Overview
 
-**Disha** is a complete, production-ready SME Loan Self-Onboarding Web Application built with React, Tailwind CSS, and Lucide React icons. The platform features role-based access for Clients, Relationship Officers (RO), Business Development Managers (BDM), and Administrators.
+**দুর্জয়** is a complete, production-ready SME Loan Self-Onboarding Web Application built with React, Tailwind CSS, and Lucide React icons. The platform features role-based access for Clients, Relationship Officers (RO), Business Development Managers (BDM), and Administrators.
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### 🎨 **1. Branding & Top Navigation**
 - ✅ Logo asset properly integrated (556x448px from `/image/logo.png`)
-- ✅ Portal branding: "Disha" (দিশা) with bilingual subtitle
+- ✅ Portal branding: "দুর্জয়" with bilingual subtitle
 - ✅ Green FinTech theme (#0D5C3A primary, #E8F5E9 background)
 - ✅ Bilingual language selector (English | বাংলা)
 - ✅ Profile avatar icon in top-right with dropdown menu
@@ -165,7 +165,7 @@
 
 - **SMS Notifications Panel** 📱
   - **Send Welcome Message Button**
-    - Message: "Welcome to Disha SME Loan Portal..."
+    - Message: "Welcome to দুর্জয় SME Loan Portal..."
   - **Send RO Contact Notice Button**
     - Bengali Message: "প্রিয় গ্রাহক শিঘ্রই আমাদের প্রতিনিধি আপনার সাথে যোগাযোগ করবে।"
   - **Custom Message Input**
