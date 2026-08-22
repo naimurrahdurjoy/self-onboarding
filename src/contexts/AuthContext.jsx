@@ -41,25 +41,35 @@ export function AuthProvider({ children }) {
     const savedEKYC = localStorage.getItem('eKYCStatus')
     const savedProfile = localStorage.getItem('userProfile')
     const savedAppStatus = localStorage.getItem('applicationStatus')
+    const savedLoanData = localStorage.getItem('loanApplicationData')
 
     if (savedSession && savedUser) {
       const parsedUser = JSON.parse(savedUser)
-      setUser(parsedUser)
+      const restoredUser = savedEKYC === 'verified'
+        ? { ...parsedUser, isEkycVerified: true, eKYCVerified: true, nidVerified: true }
+        : parsedUser
+      setUser(restoredUser)
       setIsAuthenticated(true)
       setEKYCStatus(savedEKYC || 'pending')
       setUserProfile(savedProfile ? JSON.parse(savedProfile) : defaultProfile)
       setApplicationStatus(savedAppStatus || 'Not Started')
+      setLoanApplicationData(savedLoanData ? JSON.parse(savedLoanData) : {})
+      if (restoredUser !== parsedUser) {
+        localStorage.setItem('user', JSON.stringify(restoredUser))
+      }
     } else {
       setUser(null)
       setIsAuthenticated(false)
       setEKYCStatus(null)
       setUserProfile(defaultProfile)
       setApplicationStatus('Not Started')
+      setLoanApplicationData({})
       localStorage.removeItem('user')
       localStorage.removeItem('role')
       localStorage.removeItem('eKYCStatus')
       localStorage.removeItem('userProfile')
       localStorage.removeItem('applicationStatus')
+      localStorage.removeItem('loanApplicationData')
       localStorage.removeItem('authSession')
     }
     setLoading(false)
@@ -95,6 +105,8 @@ export function AuthProvider({ children }) {
       mockUser.name = 'রেজিস্টার্ড ক্লায়েন্ট'
       mockUser.email = 'client@example.com'
       mockUser.eKYCVerified = true
+      mockUser.isEkycVerified = true
+      mockUser.nidVerified = true
       nextEKYC = 'verified'
       nextAppStatus = 'eKYC Verified'
       const profile = {
@@ -109,6 +121,7 @@ export function AuthProvider({ children }) {
         eTin: '123-456-789',
         nomineeDetails: 'Nominee Name'
       }
+      mockUser.profileData = profile
       setUserProfile(profile)
       localStorage.setItem('userProfile', JSON.stringify(profile))
     } else if (mobile === '01700000002') {
@@ -139,17 +152,22 @@ export function AuthProvider({ children }) {
       ...userData,
       avatar: userData.mobile.slice(-1),
       createdAt: new Date(),
-      eKYCVerified: false
+      eKYCVerified: false,
+      isEkycVerified: false,
+      nidVerified: false,
+      profileData: defaultProfile
     }
 
     setUser(newUser)
     setIsAuthenticated(true)
     setEKYCStatus('pending')
     setApplicationStatus('Not Started')
+    setLoanApplicationData({})
     localStorage.setItem('user', JSON.stringify(newUser))
     localStorage.setItem('authSession', 'active')
     localStorage.setItem('eKYCStatus', 'pending')
     localStorage.setItem('applicationStatus', 'Not Started')
+    localStorage.removeItem('loanApplicationData')
   }
 
   const logout = () => {
@@ -163,6 +181,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('eKYCStatus')
     localStorage.removeItem('userProfile')
     localStorage.removeItem('applicationStatus')
+    localStorage.removeItem('loanApplicationData')
   }
 
   const updateUserProfile = (updatedData) => {
@@ -177,12 +196,18 @@ export function AuthProvider({ children }) {
     localStorage.setItem('userProfile', JSON.stringify(updated))
   }
 
-  const verifyEKYC = () => {
+  const updateUserDocuments = (documents) => {
+    const updated = { ...user, uploadedDocuments: { ...(user?.uploadedDocuments || {}), ...documents } }
+    setUser(updated)
+    localStorage.setItem('user', JSON.stringify(updated))
+  }
+
+  const verifyEKYC = (documents = {}) => {
     setEKYCStatus('verifying')
     // Simulate 1.5 second verification
     setTimeout(() => {
       setEKYCStatus('verified')
-      const updated = { ...user, eKYCVerified: true }
+      const updated = { ...user, uploadedDocuments: { ...(user?.uploadedDocuments || {}), ...documents }, eKYCVerified: true, isEkycVerified: true, nidVerified: true, isNidVerified: true, profileData: userProfile }
       setUser(updated)
       setApplicationStatus('eKYC Verified')
       localStorage.setItem('user', JSON.stringify(updated))
@@ -214,6 +239,7 @@ export function AuthProvider({ children }) {
     logout,
     updateUserProfile,
     updateProfileDetails,
+    updateUserDocuments,
     verifyEKYC,
     updateApplicationStatus,
     updateLoanApplicationData

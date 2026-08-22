@@ -5,7 +5,7 @@ import Header from './components/Header'
 import QuickTestHelper from './components/QuickTestHelper'
 import Login from './pages/Login'
 import Registration from './pages/Registration'
-import UserProfile from './pages/UserProfile'
+import Profile from './pages/Profile'
 import Wizard from './pages/Wizard'
 import Dashboard from './pages/Dashboard'
 
@@ -27,7 +27,7 @@ function AppContent() {
         <Header language={language} setLanguage={setLanguage} />
       )}
 
-      <main className={isAuthenticated ? 'w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 overflow-x-hidden' : 'w-full max-w-full overflow-x-hidden'}>
+      <main className={isAuthenticated ? 'w-full max-w-full overflow-x-hidden' : 'w-full max-w-full overflow-x-hidden'}>
         <Routes>
           {/* Public Routes */}
           <Route 
@@ -42,11 +42,11 @@ function AppContent() {
           {/* Protected Routes */}
           <Route 
             path="/profile" 
-            element={isAuthenticated ? <UserProfile language={language} /> : <Navigate to="/login" />} 
+            element={isAuthenticated ? <Profile language={language} /> : <Navigate to="/login" />} 
           />
           <Route 
             path="/wizard" 
-            element={isAuthenticated ? <Wizard language={language} /> : <Navigate to="/login" />} 
+            element={<Wizard language={language} />} 
           />
           <Route 
             path="/dashboard" 
