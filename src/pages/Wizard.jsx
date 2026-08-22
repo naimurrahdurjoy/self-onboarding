@@ -155,15 +155,12 @@ export default function Wizard({ language }) {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => !isDisabled && goToTab(tab.id)}
-                  disabled={isDisabled}
+                  onClick={() => goToTab(tab.id)}
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition whitespace-nowrap ${
                     isActive
                       ? 'bg-primary text-white shadow-md'
                       : isCompleted
                       ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                      : isDisabled
-                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
