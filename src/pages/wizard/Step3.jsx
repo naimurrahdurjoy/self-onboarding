@@ -3,6 +3,7 @@ import { DEFAULT_INTEREST_RATE, LOAN_PURPOSES } from '../../constants/options'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import EMIOutcomeModal from '../../components/EMIOutcomeModal'
+import FinancialRangeInput from '../../components/FinancialRangeInput'
 
 const t = {
   en: {
@@ -51,7 +52,7 @@ const t = {
 
 export default function Step3({ prev, next, data, setData, language, isVerifiedUser = false }) {
   const [showOutcome, setShowOutcome] = useState(false)
-  const { eKYCStatus, updateApplicationStatus, updateLoanApplicationData } = useAuth()
+  const { eKYCStatus, verifyEKYC, updateApplicationStatus, updateLoanApplicationData } = useAuth()
   const navigate = useNavigate()
   const form = { interestRate: DEFAULT_INTEREST_RATE, tenureUnit: 'Years', tenureValue: 3, ...data.business }
   const lang = t[language] || t.en
@@ -68,7 +69,7 @@ export default function Step3({ prev, next, data, setData, language, isVerifiedU
   const continueToApplication = (calculator) => {
     setData('calculator', calculator)
     setShowOutcome(false)
-    next(4)
+    next(2)
   }
 
   const saveDraft = () => {
@@ -76,6 +77,14 @@ export default function Step3({ prev, next, data, setData, language, isVerifiedU
     updateLoanApplicationData({ ...data, business: form, status: 'Pending eKYC' })
     setShowOutcome(false)
     navigate('/dashboard')
+  }
+
+  const verifyAndContinue = () => {
+    verifyEKYC()
+    setTimeout(() => {
+      setShowOutcome(false)
+      next(2)
+    }, 1600)
   }
 
   return (
@@ -114,15 +123,11 @@ export default function Step3({ prev, next, data, setData, language, isVerifiedU
             <input type="number" value={form.interestRate} readOnly className="w-full border border-gray-300 p-2 rounded-lg bg-gray-50 text-gray-600" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{lang.requested}</label>
-            <input type="range" min="50000" max="3000000" step="25000" value={form.requested} onChange={e => update({ requested: parseFloat(e.target.value) || 0 })} className="w-full accent-primary" />
-            <input type="number" min="50000" max="3000000" step="25000" value={form.requested} onChange={e => update({ requested: parseFloat(e.target.value) || 0 })} className="mt-2 w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+            <FinancialRangeInput label={lang.requested} value={form.requested} onChange={value => update({ requested: value })} min={50000} max={3000000} step={25000} />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{lang.tenure}</label>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <input type="range" min="1" max={form.tenureUnit === 'Years' ? 7 : 84} step="1" value={form.tenureValue} onChange={e => update({ tenureValue: parseFloat(e.target.value) || 0 })} className="w-full flex-1 accent-primary" />
-              <input type="number" min="1" max={form.tenureUnit === 'Years' ? 7 : 84} value={form.tenureValue} onChange={e => update({ tenureValue: parseFloat(e.target.value) || 0 })} className="w-full sm:w-24 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+            <div className="flex flex-col gap-2">
+              <FinancialRangeInput label={lang.tenure} value={form.tenureValue} onChange={value => update({ tenureValue: value })} min={1} max={form.tenureUnit === 'Years' ? 7 : 84} step={1} />
               <select value={form.tenureUnit} onChange={e => update({ tenureUnit: e.target.value })} className="w-full sm:w-auto border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                 <option value="Months">{lang.months}</option>
                 <option value="Years">{lang.years}</option>
@@ -132,35 +137,21 @@ export default function Step3({ prev, next, data, setData, language, isVerifiedU
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{lang.monthlyIncome}</label>
-            <input type="number" value={form.monthlyIncome} onChange={e => update({ monthlyIncome: parseFloat(e.target.value) || 0 })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{lang.monthlyExpense}</label>
-            <input type="number" value={form.monthlyExpense} onChange={e => update({ monthlyExpense: parseFloat(e.target.value) || 0 })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{lang.personalExpense}</label>
-            <input type="number" value={form.personalExpense} onChange={e => update({ personalExpense: parseFloat(e.target.value) || 0 })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-          </div>
+          <FinancialRangeInput label={lang.monthlyIncome} value={form.monthlyIncome} onChange={value => update({ monthlyIncome: value })} min={10000} max={5000000} step={10000} />
+          <FinancialRangeInput label={lang.monthlyExpense} value={form.monthlyExpense} onChange={value => update({ monthlyExpense: value })} min={5000} max={4000000} step={5000} />
+          <FinancialRangeInput label={lang.personalExpense} value={form.personalExpense} onChange={value => update({ personalExpense: value })} min={5000} max={1000000} step={5000} />
         </div>
 
         <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
           <p className="text-sm font-semibold text-gray-700 mb-3">Asset & Working Capital Metrics</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              ['cash', lang.cash],
-              ['stock', lang.stock],
-              ['receivables', lang.receivables],
-              ['payables', lang.payables],
-              ['fixedAssets', lang.fixedAssets]
-            ].map(([key, label]) => (
-              <div key={key}>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
-                <input type="number" value={form[key]} onChange={e => update({ [key]: parseFloat(e.target.value) || 0 })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
-              </div>
-            ))}
+              ['cash', lang.cash, 0, 10000000, 50000],
+              ['stock', lang.stock, 0, 20000000, 100000],
+              ['receivables', lang.receivables, 0, 10000000, 50000],
+              ['payables', lang.payables, 0, 10000000, 50000],
+              ['fixedAssets', lang.fixedAssets, 0, 50000000, 100000]
+            ].map(([key, label, min, max, step]) => <FinancialRangeInput key={key} label={label} value={form[key]} onChange={value => update({ [key]: value })} min={min} max={max} step={step} />)}
           </div>
         </div>
 
@@ -174,7 +165,7 @@ export default function Step3({ prev, next, data, setData, language, isVerifiedU
         language={language}
         verified={isVerifiedUser || eKYCStatus === 'verified'}
         onContinue={continueToApplication}
-        onVerify={() => navigate('/profile')}
+        onVerify={verifyAndContinue}
         onLater={saveDraft}
         onClose={() => setShowOutcome(false)}
       />}

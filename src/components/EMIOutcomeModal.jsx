@@ -10,6 +10,7 @@ export default function EMIOutcomeModal({ data, language, verified, onContinue, 
   const [tenure, setTenure] = useState(business.tenureValue || 3)
   const [rate, setRate] = useState(business.interestRate || 16.75)
   const [showGate, setShowGate] = useState(false)
+  const [showVerification, setShowVerification] = useState(false)
   const tenureMonths = tenure * 12
   const metrics = calculateLoanMetrics({ ...business, requested: amount, interestRate: rate, tenureMonths })
   const interest = Math.max(0, metrics.proposedEmi * tenureMonths - metrics.approvedAmount)
@@ -30,7 +31,7 @@ export default function EMIOutcomeModal({ data, language, verified, onContinue, 
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 text-sm"><span className="text-slate-500">{bn ? 'সুদের হার' : 'Interest rate'}</span><strong>{rate.toFixed(2)}%</strong></div>
         <p className="text-xs leading-5 text-slate-400">{bn ? 'এই ফলাফলটি একটি প্রাথমিক অনুমান। চূড়ান্ত ঋণ অনুমোদন নিয়ন্ত্রক নীতি ও যাচাইয়ের ফলাফলের ওপর নির্ভরশীল।' : 'This is an indicative estimate. Final approval is subject to regulatory policy, document review, and verification.'}</p>
         <button onClick={confirm} className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#0b6b45] py-3 font-bold text-white hover:bg-[#075a39]">{bn ? 'নিশ্চিত করুন ও এগিয়ে যান' : 'Confirm & Proceed'} <ChevronRight className="h-5 w-5" /></button>
-      </div> : <Gate language={language} onVerify={onVerify} onLater={onLater} onBack={() => setShowGate(false)} />}
+      </div> : showVerification ? <Verification language={language} onVerify={onVerify} /> : <Gate language={language} onVerify={() => setShowVerification(true)} onLater={onLater} onBack={() => setShowGate(false)} />}
     </div>
   </div>
 }
@@ -43,4 +44,9 @@ function Gate({ language, onVerify, onLater, onBack }) {
   const bn = language === 'bn'
   const items = bn ? ['জাতীয় পরিচয়পত্র', 'ট্রেড লাইসেন্স', 'ই-টিন', 'ব্যাংক স্টেটমেন্ট'] : ['NID Card', 'Trade License', 'e-TIN', 'Bank Statements']
   return <div className="p-5 sm:p-7"><div className="mb-6 flex items-start gap-3"><div className="rounded-full bg-[#e4f4ec] p-3 text-[#0b6b45]"><ShieldCheck /></div><div><h2 className="text-xl font-bold">{bn ? 'ভেরিফিকেশন সম্পন্ন করুন' : 'Complete Verification'}</h2><p className="mt-1 text-sm text-slate-500">{bn ? 'আবেদন জমা দিতে নিচের নথিগুলো প্রস্তুত রাখুন।' : 'Keep these documents ready to submit your application.'}</p></div></div><div className="mb-7 space-y-3">{items.map(item => <div key={item} className="flex items-center gap-3 border-b border-slate-100 py-3 text-sm font-semibold"><FileCheck2 className="h-5 w-5 text-[#0b6b45]" />{item}<Check className="ml-auto h-5 w-5 text-[#0b6b45]" /></div>)}</div><div className="space-y-3"><button onClick={onVerify} className="w-full rounded-lg bg-[#0b6b45] py-3 font-bold text-white">{bn ? 'এখনই ই-কেওয়াইসি ভেরিফাই করুন' : 'Verify eKYC now'}</button><button onClick={onLater} className="w-full rounded-lg border border-slate-300 py-3 font-bold text-slate-700">{bn ? 'পরে করবো' : 'I will do this later'}</button><button onClick={onBack} className="w-full py-2 text-sm font-semibold text-slate-500">{bn ? 'ফলাফলে ফিরে যান' : 'Back to outcome'}</button></div></div>
+}
+
+function Verification({ language, onVerify }) {
+  const bn = language === 'bn'
+  return <div className="p-5 sm:p-7"><div className="mb-6"><h2 className="text-xl font-bold">{bn ? 'ই-কেওয়াইসি সম্পন্ন করুন' : 'Complete eKYC'}</h2><p className="mt-2 text-sm leading-6 text-slate-500">{bn ? 'আপনার আবেদন জমা দিতে NID আপলোড করুন এবং লিভনেস চেক সম্পন্ন করুন।' : 'To continue with your application submission, please upload your NID and perform Liveness Check.'}</p></div><div className="space-y-3"><label className="block rounded-lg border border-dashed border-slate-300 p-4 text-sm font-semibold text-slate-600">{bn ? 'NID আপলোড করুন' : 'Upload NID'}<input type="file" accept="image/*,.pdf" className="mt-2 block w-full text-xs" /></label><button onClick={onVerify} className="w-full rounded-lg bg-[#0b6b45] py-3 font-bold text-white">{bn ? 'NID ও লিভনেস যাচাই করুন' : 'Verify NID & Liveness'}</button></div></div>
 }
