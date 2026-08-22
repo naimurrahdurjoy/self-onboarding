@@ -5,7 +5,7 @@ import EKYCVerificationModal from './eKYCVerificationModal'
 
 const money = value => `৳ ${Math.round(value).toLocaleString()}`
 
-export default function EMIOutcomeModal({ data, language, verified, onContinue, onVerify, onLater, onClose }) {
+export default function EMIOutcomeModal({ data, language, verified, onContinue, onVerify, onSkip, onLater, onClose }) {
   const business = data.business || {}
   const [amount, setAmount] = useState(business.requested || 500000)
   const [tenure, setTenure] = useState(business.tenureValue || 3)
@@ -32,7 +32,7 @@ export default function EMIOutcomeModal({ data, language, verified, onContinue, 
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 text-sm"><span className="text-slate-500">{bn ? 'সুদের হার' : 'Interest rate'}</span><strong>{rate.toFixed(2)}%</strong></div>
         <p className="text-xs leading-5 text-slate-400">{bn ? 'এই ফলাফলটি একটি প্রাথমিক অনুমান। চূড়ান্ত ঋণ অনুমোদন নিয়ন্ত্রক নীতি ও যাচাইয়ের ফলাফলের ওপর নির্ভরশীল।' : 'This is an indicative estimate. Final approval is subject to regulatory policy, document review, and verification.'}</p>
         <button onClick={confirm} className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#0b6b45] py-3 font-bold text-white hover:bg-[#075a39]">{bn ? 'নিশ্চিত করুন ও এগিয়ে যান' : 'Confirm & Proceed'} <ChevronRight className="h-5 w-5" /></button>
-      </div> : showVerification ? <EKYCVerificationModal language={language} onSubmit={onVerify} onClose={onClose} /> : <Gate language={language} onVerify={() => setShowVerification(true)} onLater={onLater} onBack={() => setShowGate(false)} />}
+      </div> : showVerification ? <EKYCVerificationModal language={language} onSubmit={onVerify} onSkip={onSkip} onClose={onClose} /> : <Gate language={language} onVerify={() => setShowVerification(true)} onLater={onLater} onBack={() => setShowGate(false)} />}
     </div>
   </div>
 }

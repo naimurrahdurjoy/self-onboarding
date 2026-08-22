@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import logoImage from '../../image/logo.png'
 
 const navItems = [
   { key: 'dashboard', icon: BarChart3, path: '/dashboard' },
@@ -34,12 +35,12 @@ export default function Profile({ language = 'bn' }) {
   const isEkycVerified = Boolean(user?.verificationStatus === 'verified' || user?.isEkycVerified || user?.eKYCVerified || eKYCStatus === 'verified')
   const isNidVerified = user?.isNidVerified === undefined ? isEkycVerified : user.isNidVerified === true
   const uploadedDocuments = user?.uploadedDocuments || {}
-  const isTradeLicenseVerified = Boolean(user?.isTradeLicenseVerified || uploadedDocuments.tradeLicense)
+  const isTradeLicenseVerified = Boolean(user?.isTradeLicenseVerified)
   const isVerified = isEkycVerified
   const documents = [
-    [text.nid, isNidVerified ? text.verified : text.pending, isNidVerified ? '৯৮%' : '—', isNidVerified ? '১৫ আগস্ট ২০২৬' : text.waiting, isNidVerified],
-    [text.trade, isTradeLicenseVerified ? text.verified : text.pending, isTradeLicenseVerified ? '৯৫%' : '—', isTradeLicenseVerified ? '১৫ আগস্ট ২০২৬' : text.waiting, isTradeLicenseVerified],
-    [text.mobile, text.verified, '১০০%', '০১ আগস্ট ২০২৬', true],
+    [text.nid, isNidVerified ? text.verified : uploadedDocuments.nidFront ? text.inReview : text.pending, isNidVerified ? '৯৮%' : '—', isNidVerified ? '১৫ আগস্ট ২০২৬' : uploadedDocuments.nidFront, isNidVerified, 'nidFront'],
+    [text.trade, isTradeLicenseVerified ? text.verified : uploadedDocuments.tradeLicense ? text.inReview : text.pending, isTradeLicenseVerified ? '৯৫%' : '—', isTradeLicenseVerified ? '১৫ আগস্ট ২০২৬' : uploadedDocuments.tradeLicense || text.waiting, isTradeLicenseVerified, 'tradeLicense'],
+    [text.mobile, text.verified, '১০০%', '০১ আগস্ট ২০২৬', true, 'mobile'],
     [text.email, text.pending, '—', text.waiting, false, 'email'],
     [text.tin, uploadedDocuments.eTin ? text.inReview : text.pending, '—', uploadedDocuments.eTin ? uploadedDocuments.eTin : text.waiting, Boolean(uploadedDocuments.eTin), 'eTin'],
     [text.bank, uploadedDocuments.bankStatements ? text.inReview : text.pending, '—', uploadedDocuments.bankStatements ? uploadedDocuments.bankStatements : text.waiting, Boolean(uploadedDocuments.bankStatements), 'bankStatements']
@@ -61,6 +62,7 @@ export default function Profile({ language = 'bn' }) {
       <aside className={`fixed inset-y-0 left-0 z-50 w-72 border-r border-[#d8e4dd] bg-white p-5 transition-transform md:sticky md:top-0 md:float-left md:block md:h-screen md:translate-x-0 ${drawerOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="mb-10 flex items-center justify-between">
           <div>
+            <img src={logoImage} alt="Disha SME" className="mb-3 h-12 w-auto object-contain" />
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#0b6b45]">Disha SME</p>
             <p className="mt-1 text-sm text-slate-500">{text.portal}</p>
           </div>

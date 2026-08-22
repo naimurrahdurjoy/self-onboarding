@@ -6,14 +6,12 @@ import { useAuth } from '../contexts/AuthContext'
 import { DEFAULT_INTEREST_RATE } from '../constants/options'
 import Step3 from './wizard/Step3'
 import Step5 from './wizard/Step5'
-import Step6 from './wizard/Step6'
 import Step7 from './wizard/Step7'
 
 const WIZARD_TABS = [
   { id: 1, key: 'business', icon: Briefcase, en: 'Business & Financials', bn: 'ব্যবসা ও আর্থিক' },
   { id: 2, key: 'trade', icon: Building2, en: 'Trade & Entity Details', bn: 'ট্রেড ও সত্তা বিবরণ' },
-  { id: 3, key: 'existingLoans', icon: Landmark, en: 'Existing Banking Loans', bn: 'বিদ্যমান ব্যাংক ঋণ' },
-  { id: 4, key: 'preview', icon: FileCheck, en: 'Preview & Submit', bn: 'পূর্বরূপ ও জমা' }
+  { id: 3, key: 'preview', icon: FileCheck, en: 'Preview & Submit', bn: 'পূর্বরূপ ও জমা' }
 ]
 
 const defaultData = (mobile) => ({
@@ -37,7 +35,7 @@ const defaultData = (mobile) => ({
     existingLoanFlag: false,
     tradeNumber: '', issueDate: '', expiryDate: '', issueAuthority: '',
     eTin: '', eTinVerified: false, trc: '', bin: '', businessGrowth: 15,
-    registeredAddress: '', nearestBranch: 'Dhaka Central'
+    registeredAddress: '', division: 'Dhaka', district: 'Dhaka', nearestBranch: 'Dhaka Central Main Branch'
   },
   existingLoans: [],
   calculator: null
@@ -131,25 +129,16 @@ export default function Wizard({ language }) {
     if (!completedTabs.includes(step)) {
       setCompletedTabs(prev => [...prev, step])
     }
-    if (step === 2 && !data.trade.existingLoanFlag) {
-      setStep(4)
-      return
-    }
-    setStep(s => targetStep || Math.min(s + 1, 4))
+    setStep(s => targetStep || Math.min(s + 1, 3))
   }
 
   const prev = () => {
-    if (step === 4 && !data.trade.existingLoanFlag) {
-      setStep(2)
-      return
-    }
     if (step > 1) {
       setStep(s => Math.max(s - 1, 1))
     }
   }
 
   const goToTab = (tabId) => {
-    if (tabId === 3 && !data.trade.existingLoanFlag) return
     setStep(tabId)
   }
 
@@ -162,7 +151,6 @@ export default function Wizard({ language }) {
               const Icon = tab.icon
               const isActive = step === tab.id
               const isCompleted = completedTabs.includes(tab.id)
-              const isDisabled = tab.id === 3 && !data.trade.existingLoanFlag
 
               return (
                 <button
@@ -190,8 +178,7 @@ export default function Wizard({ language }) {
         <div className="border-t pt-6">
           {step === 1 && <Step3 prev={prev} next={next} data={data} setData={mergeData} language={language} isVerifiedUser={isVerifiedUser} />}
           {step === 2 && <Step5 prev={prev} next={next} data={data} setData={mergeData} language={language} />}
-          {step === 3 && data.trade.existingLoanFlag && <Step6 prev={prev} next={next} data={data} setData={mergeData} language={language} />}
-          {step === 4 && <Step7 prev={prev} data={data} setData={mergeData} language={language} />}
+          {step === 3 && <Step7 prev={prev} data={data} setData={mergeData} language={language} />}
         </div>
       </div>
     </div>
