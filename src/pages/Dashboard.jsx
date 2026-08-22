@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext'
 import ROView from './dashboard/ROView'
 import BDMView from './dashboard/BDMView'
 import AdminView from './dashboard/AdminView'
+import CustomerDashboard from './dashboard/CustomerDashboard'
 
 const t = {
   en: {
@@ -69,70 +70,7 @@ export default function Dashboard({ language }) {
   }
 
   if (user?.role === 'Client') {
-    return (
-      <div className="w-full max-w-4xl mx-auto px-4 py-4 sm:py-6 overflow-x-hidden">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-primary mb-2 break-words">{lang.clientPortal}</h1>
-          <p className="text-gray-600 text-sm sm:text-base break-words">{lang.clientSubtitle}</p>
-        </div>
-
-        {/* Quick Action Cards */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch mb-8">
-          {/* Wizard Card - Main Action */}
-          <div className="w-full bg-white rounded-2xl shadow-lg p-5 sm:p-8 hover:shadow-xl transition cursor-pointer border-2 border-primary border-opacity-20" onClick={() => navigate('/wizard')}>
-            <div className="flex items-start justify-between mb-4 gap-3">
-              <div className="min-w-0 flex-1">
-                <h3 className="text-xl sm:text-2xl font-bold text-primary mb-1 break-words">{lang.continueWizard}</h3>
-                <p className="text-gray-600 text-sm break-words">{lang.wizardDescription}</p>
-              </div>
-              <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-primary text-2xl shrink-0">
-                📋
-              </div>
-            </div>
-            <button className="w-full bg-primary text-white py-3 rounded-lg hover:bg-opacity-90 transition font-bold">
-              {lang.continue}
-            </button>
-          </div>
-
-          {/* Application Tracker Card */}
-          <div className="w-full bg-white rounded-2xl shadow-lg p-5 sm:p-8 border-2 border-green-200">
-            <div className="flex items-start justify-between mb-6 gap-3">
-              <div className="min-w-0 flex-1">
-                <h3 className="text-xl sm:text-2xl font-bold text-primary mb-1 break-words">{lang.applicationTracker}</h3>
-                <p className="text-gray-600 text-sm break-words">{lang.trackerDescription}</p>
-              </div>
-              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-primary text-2xl shrink-0">
-                ✓
-              </div>
-            </div>
-            <div className="space-y-3">
-              {applicationSteps.map((step, idx) => {
-                const status = getStepStatus(step.key)
-                return (
-                  <div key={idx} className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm text-white flex-shrink-0 ${
-                      status === 'completed' ? 'bg-green-500' :
-                      status === 'in-progress' ? 'bg-primary' :
-                      'bg-gray-300'
-                    }`}>
-                      {status === 'completed' ? '✓' : idx + 1}
-                    </div>
-                    <span className={`font-medium break-words ${
-                      status === 'completed' ? 'text-green-600' :
-                      status === 'in-progress' ? 'text-primary font-bold' :
-                      'text-gray-500'
-                    }`}>
-                      {step.label}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+    return <CustomerDashboard language={language} />
   }
 
   if (user?.role === 'RO') return <ROView language={language} selectedLead={selectedLead} setSelectedLead={setSelectedLead} />

@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DEFAULT_INTEREST_RATE, LOAN_PURPOSES } from '../../constants/options'
+import { useAuth } from '../../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import EMIOutcomeModal from '../../components/EMIOutcomeModal'
 
 const t = {
   en: {
@@ -47,6 +50,9 @@ const t = {
 }
 
 export default function Step3({ prev, next, data, setData, language }) {
+  const [showOutcome, setShowOutcome] = useState(false)
+  const { eKYCStatus, updateApplicationStatus, updateLoanApplicationData } = useAuth()
+  const navigate = useNavigate()
   const form = { interestRate: DEFAULT_INTEREST_RATE, tenureUnit: 'Years', tenureValue: 3, ...data.business }
   const lang = t[language] || t.en
 
@@ -56,7 +62,20 @@ export default function Step3({ prev, next, data, setData, language }) {
 
   const handleNext = () => {
     update({ ...form, tenureMonths })
+    setShowOutcome(true)
+  }
+
+  const continueToApplication = (calculator) => {
+    setData('calculator', calculator)
+    setShowOutcome(false)
     next()
+  }
+
+  const saveDraft = () => {
+    updateApplicationStatus('Pending eKYC')
+    updateLoanApplicationData({ ...data, business: form, status: 'Pending eKYC' })
+    setShowOutcome(false)
+    navigate('/dashboard')
   }
 
   return (
@@ -148,6 +167,15 @@ export default function Step3({ prev, next, data, setData, language }) {
           <button onClick={handleNext} className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition font-medium">{lang.next}</button>
         </div>
       </div>
+      {showOutcome && <EMIOutcomeModal
+        data={{ ...data, business: form }}
+        language={language}
+        verified={eKYCStatus === 'verified'}
+        onContinue={continueToApplication}
+        onVerify={() => navigate('/profile')}
+        onLater={saveDraft}
+        onClose={() => setShowOutcome(false)}
+      />}
     </div>
   )
 }
