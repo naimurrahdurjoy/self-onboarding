@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom'
 
 const navItems = [
   { label: 'ড্যাশবোর্ড', icon: BarChart3, path: '/dashboard' },
-  { label: 'প্রোফাইল', icon: User, path: '/profile' },
-  { label: 'এসএমই ঋণ সেবাসমূহ', icon: Briefcase, path: '/wizard' },
-  { label: 'জিজ্ঞাসিত প্রশ্নাবলী', icon: HelpCircle, path: '/dashboard' },
+  { label: 'প্রোফাইল', icon: UserRound, path: '/profile' },
+  { label: 'এসএমই ঋণ সেবাসমূহ', icon: BriefcaseBusiness, path: '/wizard' },
+  { label: 'জিজ্ঞাসিত প্রশ্নাবলী', icon: CircleHelp, path: '/dashboard' },
   { label: 'নির্দেশিকা / ম্যানুয়াল', icon: BookOpen, path: '/dashboard' }
 ]
 
