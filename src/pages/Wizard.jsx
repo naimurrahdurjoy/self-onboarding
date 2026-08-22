@@ -117,16 +117,18 @@ export default function Wizard({ language }) {
     }))
   }, [data.business.businessName, data.mobile])
 
+  useEffect(() => {
+    updateLoanApplicationData(data)
+  }, [data])
+
   const lang = language === 'bn' ? 'bn' : 'en'
   const tabs = WIZARD_TABS
 
   const mergeData = (section, sectionData) => {
     setData(prev => {
-      const updated = section === 'root'
+      return section === 'root'
         ? { ...prev, ...sectionData }
         : { ...prev, [section]: { ...prev[section], ...sectionData } }
-      updateLoanApplicationData(updated)
-      return updated
     })
   }
 
