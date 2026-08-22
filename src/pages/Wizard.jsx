@@ -49,16 +49,64 @@ const defaultData = (mobile) => ({
 })
 
 export default function Wizard({ language }) {
-  const { isAuthenticated, user, updateLoanApplicationData } = useAuth()
-  const [step, setStep] = useState(isAuthenticated ? 1 : 0)
-  const [data, setData] = useState(defaultData(isAuthenticated ? user?.mobile : ''))
-  const [completedTabs, setCompletedTabs] = useState([])
+  const { isAuthenticated, user, userProfile, eKYCStatus, updateLoanApplicationData } = useAuth()
+  const isVerifiedUser = Boolean(user?.isEkycVerified || user?.isEKYCVerified || user?.eKYCVerified || user?.nidVerified || eKYCStatus === 'verified')
+  const profileData = user?.profileData || userProfile || {}
+  const getInitialData = () => {
+    const initial = defaultData(isAuthenticated ? user?.mobile : '')
+    if (!isVerifiedUser) return initial
+    return {
+      ...initial,
+      personal: {
+        ...initial.personal,
+        fullName: profileData.fullName || user?.name || '',
+        dob: profileData.dateOfBirth || profileData.dob || '',
+        nid: profileData.nidNumber || profileData.nid || '',
+        gender: profileData.gender || '',
+        father: profileData.fatherName || profileData.father || '',
+        mother: profileData.motherName || profileData.mother || '',
+        presentAddress: profileData.presentAddress || '',
+        permanentAddress: profileData.permanentAddress || '',
+        tinNumber: profileData.eTINNumber || profileData.eTin || profileData.tinNumber || '',
+        dedupeStatus: 'cleared',
+        cibStatus: 'cleared',
+        livenessVerified: true
+      }
+    }
+  }
+  const [step, setStep] = useState(isAuthenticated ? (isVerifiedUser ? 2 : 1) : 0)
+  const [data, setData] = useState(getInitialData)
+  const [completedTabs, setCompletedTabs] = useState(isVerifiedUser ? [1] : [])
 
   useEffect(() => {
     if (isAuthenticated && user?.mobile) {
       setData(prev => ({ ...prev, mobile: user.mobile }))
     }
   }, [isAuthenticated, user?.mobile])
+
+  useEffect(() => {
+    if (isVerifiedUser) {
+      setStep(currentStep => currentStep === 0 || currentStep === 1 ? 2 : currentStep)
+      setCompletedTabs(prev => prev.includes(1) ? prev : [1, ...prev])
+      setData(prev => ({
+        ...prev,
+        personal: {
+          ...prev.personal,
+          fullName: profileData.fullName || user?.name || prev.personal.fullName,
+          dob: profileData.dateOfBirth || profileData.dob || prev.personal.dob,
+          nid: profileData.nidNumber || profileData.nid || prev.personal.nid,
+          father: profileData.fatherName || profileData.father || prev.personal.father,
+          mother: profileData.motherName || profileData.mother || prev.personal.mother,
+          presentAddress: profileData.presentAddress || prev.personal.presentAddress,
+          permanentAddress: profileData.permanentAddress || prev.personal.permanentAddress,
+          tinNumber: profileData.eTINNumber || profileData.eTin || profileData.tinNumber || prev.personal.tinNumber,
+          dedupeStatus: 'cleared',
+          cibStatus: 'cleared',
+          livenessVerified: true
+        }
+      }))
+    }
+  }, [isVerifiedUser, profileData, user?.name])
 
   useEffect(() => {
     setData(prev => ({
@@ -84,7 +132,7 @@ export default function Wizard({ language }) {
     })
   }
 
-  const next = () => {
+  const next = (targetStep) => {
     if (!completedTabs.includes(step)) {
       setCompletedTabs(prev => [...prev, step])
     }
@@ -92,7 +140,7 @@ export default function Wizard({ language }) {
       setStep(6)
       return
     }
-    setStep(s => Math.min(s + 1, 6))
+    setStep(s => targetStep || Math.min(s + 1, 6))
   }
 
   const prev = () => {
@@ -129,6 +177,7 @@ export default function Wizard({ language }) {
               const Icon = tab.icon
               const isActive = step === tab.id
               const isCompleted = completedTabs.includes(tab.id)
+              const isVerifiedPersonalStep = tab.id === 1 && isVerifiedUser
               const isDisabled = tab.id === 5 && !data.trade.existingLoanFlag
 
               return (
@@ -147,7 +196,7 @@ export default function Wizard({ language }) {
                   }`}
                 >
                   <Icon className="w-4 h-4 flex-shrink-0" />
-                  <span>{lang === 'bn' ? tab.bn : tab.en}</span>
+                    <span>{isVerifiedPersonalStep ? (lang === 'bn' ? '✓ প্রোফাইল থেকে যাচাইকৃত' : '✓ Verified from Profile') : (lang === 'bn' ? tab.bn : tab.en)}</span>
                 </button>
               )
             })}
@@ -156,10 +205,10 @@ export default function Wizard({ language }) {
 
         <div className="border-t pt-6">
           {step === 1 && (
-            <Step2 prev={prev} next={next} data={data} setData={mergeData} language={language} />
+            <Step2 prev={prev} next={next} data={data} setData={mergeData} language={language} isVerifiedUser={isVerifiedUser} />
           )}
           {step === 2 && (
-            <Step3 prev={prev} next={next} data={data} setData={mergeData} language={language} />
+            <Step3 prev={prev} next={next} data={data} setData={mergeData} language={language} isVerifiedUser={isVerifiedUser} />
           )}
           {step === 3 && (
             <Step4 prev={prev} next={next} data={data} setData={mergeData} language={language} />

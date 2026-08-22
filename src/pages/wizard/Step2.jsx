@@ -71,7 +71,7 @@ const OCR_DEFAULTS = {
   permanentAddress: 'Village: Test Para, District: Dhaka'
 }
 
-export default function Step2({ prev, next, data, setData, language }) {
+export default function Step2({ prev, next, data, setData, language, isVerifiedUser = false }) {
   const [nidFrontFile, setNidFrontFile] = useState(null)
   const [nidBackFile, setNidBackFile] = useState(null)
   const [scanning, setScanning] = useState(false)
@@ -110,6 +110,10 @@ export default function Step2({ prev, next, data, setData, language }) {
   }
 
   const handleNext = () => {
+    if (isVerifiedUser) {
+      next()
+      return
+    }
     if (!personal.dedupeStatus) handleVerify()
     setTimeout(next, personal.dedupeStatus ? 0 : 1900)
   }
@@ -147,22 +151,28 @@ export default function Step2({ prev, next, data, setData, language }) {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{lang.nidFront}</label>
-            <div className="flex flex-col sm:flex-row items-stretch gap-2">
-              <input type="file" accept="image/*" onChange={handleUpload(setNidFrontFile)} className="w-full flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
-              {nidFrontFile && <Upload className="w-5 h-5 text-green-600 self-center" />}
+        {isVerifiedUser ? (
+          <div className="flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 p-4 text-sm font-semibold text-green-800">
+            <Shield className="h-5 w-5 flex-shrink-0 text-green-600" />
+            <span>[ ✓ NID &amp; Liveness Selfie verified from primary profile ]</span>
+          </div>
+        ) : <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{lang.nidFront}</label>
+              <div className="flex flex-col sm:flex-row items-stretch gap-2">
+                <input type="file" accept="image/*" onChange={handleUpload(setNidFrontFile)} className="w-full flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
+                {nidFrontFile && <Upload className="w-5 h-5 text-green-600 self-center" />}
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{lang.nidBack}</label>
+              <div className="flex flex-col sm:flex-row items-stretch gap-2">
+                <input type="file" accept="image/*" onChange={handleUpload(setNidBackFile)} className="w-full flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
+                {nidBackFile && <Upload className="w-5 h-5 text-green-600 self-center" />}
+              </div>
             </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{lang.nidBack}</label>
-            <div className="flex flex-col sm:flex-row items-stretch gap-2">
-              <input type="file" accept="image/*" onChange={handleUpload(setNidBackFile)} className="w-full flex-1 border border-gray-300 p-2 rounded-lg text-sm" />
-              {nidBackFile && <Upload className="w-5 h-5 text-green-600 self-center" />}
-            </div>
-          </div>
-        </div>
 
         <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
           <div className="flex flex-col items-stretch gap-3">
@@ -184,6 +194,7 @@ export default function Step2({ prev, next, data, setData, language }) {
             </button>
           </div>
         </div>
+        </>}
 
         {scanning && (
           <div className="p-3 bg-blue-50 rounded-lg text-center animate-pulse text-sm text-blue-700">
@@ -204,6 +215,7 @@ export default function Step2({ prev, next, data, setData, language }) {
                 <input
                   value={personal[key] || ''}
                   onChange={e => updatePersonal({ [key]: e.target.value })}
+                  readOnly={isVerifiedUser}
                   className="w-full border border-gray-300 p-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
@@ -213,6 +225,7 @@ export default function Step2({ prev, next, data, setData, language }) {
               <input
                 value={personal.tinNumber || ''}
                 onChange={e => updatePersonal({ tinNumber: e.target.value })}
+                readOnly={isVerifiedUser}
                 placeholder="Manual TIN entry"
                 className="w-full border border-gray-300 p-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
               />
@@ -220,13 +233,13 @@ export default function Step2({ prev, next, data, setData, language }) {
           </div>
         </div>
 
-        <button
+        {!isVerifiedUser && <button
           onClick={handleVerify}
           disabled={verifying}
           className="w-full py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-60"
         >
           {verifying ? lang.verifying : lang.verifySubmit}
-        </button>
+        </button>}
 
         <div className="flex justify-between pt-4">
           <button onClick={prev} className="border border-gray-300 px-6 py-2 rounded-lg hover:bg-gray-50 transition font-medium">

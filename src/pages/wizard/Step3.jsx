@@ -49,7 +49,7 @@ const t = {
   }
 }
 
-export default function Step3({ prev, next, data, setData, language }) {
+export default function Step3({ prev, next, data, setData, language, isVerifiedUser = false }) {
   const [showOutcome, setShowOutcome] = useState(false)
   const { eKYCStatus, updateApplicationStatus, updateLoanApplicationData } = useAuth()
   const navigate = useNavigate()
@@ -68,7 +68,7 @@ export default function Step3({ prev, next, data, setData, language }) {
   const continueToApplication = (calculator) => {
     setData('calculator', calculator)
     setShowOutcome(false)
-    next()
+    next(4)
   }
 
   const saveDraft = () => {
@@ -170,7 +170,7 @@ export default function Step3({ prev, next, data, setData, language }) {
       {showOutcome && <EMIOutcomeModal
         data={{ ...data, business: form }}
         language={language}
-        verified={eKYCStatus === 'verified'}
+        verified={isVerifiedUser || eKYCStatus === 'verified'}
         onContinue={continueToApplication}
         onVerify={() => navigate('/profile')}
         onLater={saveDraft}
