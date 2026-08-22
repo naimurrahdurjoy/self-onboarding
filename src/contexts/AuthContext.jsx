@@ -41,6 +41,7 @@ export function AuthProvider({ children }) {
     const savedEKYC = localStorage.getItem('eKYCStatus')
     const savedProfile = localStorage.getItem('userProfile')
     const savedAppStatus = localStorage.getItem('applicationStatus')
+    const savedLoanData = localStorage.getItem('loanApplicationData')
 
     if (savedSession && savedUser) {
       const parsedUser = JSON.parse(savedUser)
@@ -52,6 +53,7 @@ export function AuthProvider({ children }) {
       setEKYCStatus(savedEKYC || 'pending')
       setUserProfile(savedProfile ? JSON.parse(savedProfile) : defaultProfile)
       setApplicationStatus(savedAppStatus || 'Not Started')
+      setLoanApplicationData(savedLoanData ? JSON.parse(savedLoanData) : {})
       if (restoredUser !== parsedUser) {
         localStorage.setItem('user', JSON.stringify(restoredUser))
       }
@@ -61,11 +63,13 @@ export function AuthProvider({ children }) {
       setEKYCStatus(null)
       setUserProfile(defaultProfile)
       setApplicationStatus('Not Started')
+      setLoanApplicationData({})
       localStorage.removeItem('user')
       localStorage.removeItem('role')
       localStorage.removeItem('eKYCStatus')
       localStorage.removeItem('userProfile')
       localStorage.removeItem('applicationStatus')
+      localStorage.removeItem('loanApplicationData')
       localStorage.removeItem('authSession')
     }
     setLoading(false)
@@ -158,10 +162,12 @@ export function AuthProvider({ children }) {
     setIsAuthenticated(true)
     setEKYCStatus('pending')
     setApplicationStatus('Not Started')
+    setLoanApplicationData({})
     localStorage.setItem('user', JSON.stringify(newUser))
     localStorage.setItem('authSession', 'active')
     localStorage.setItem('eKYCStatus', 'pending')
     localStorage.setItem('applicationStatus', 'Not Started')
+    localStorage.removeItem('loanApplicationData')
   }
 
   const logout = () => {
@@ -175,6 +181,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('eKYCStatus')
     localStorage.removeItem('userProfile')
     localStorage.removeItem('applicationStatus')
+    localStorage.removeItem('loanApplicationData')
   }
 
   const updateUserProfile = (updatedData) => {
