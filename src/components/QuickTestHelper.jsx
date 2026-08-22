@@ -24,7 +24,7 @@ export default function QuickTestHelper() {
   }
 
   const handleFillLoginForm = (mobile, password) => {
-    window.dispatchEvent(new CustomEvent('disha-quickfill', { detail: { mobile, password } }))
+    window.dispatchEvent(new CustomEvent('durjoy-quickfill', { detail: { mobile, password } }))
     if (location.pathname !== '/login') navigate('/login')
   }
 

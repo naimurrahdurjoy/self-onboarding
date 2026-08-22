@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Plus, Trash2 } from 'lucide-react'
 import { DEFAULT_INTEREST_RATE, LOAN_PURPOSES, BANKS, EXISTING_LOAN_TYPES } from '../../constants/options'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +9,6 @@ const t = {
   en: {
     businessFinance: 'Business & Financial Information',
     businessName: 'Business Name',
-    loanType: 'Preferred Loan Type',
     purpose: 'Purpose of Loan',
     interestRate: 'Interest Rate (Auto-fetched)',
     requested: 'Requested Loan Amount',
@@ -31,7 +29,6 @@ const t = {
   bn: {
     businessFinance: 'ব্যবসা ও আর্থিক তথ্য',
     businessName: 'ব্যবসার নাম',
-    loanType: 'পছন্দের ঋণের ধরন',
     purpose: 'ঋণের উদ্দেশ্য',
     interestRate: 'সুদের হার (স্বয়ং-আনা)',
     requested: 'অনুরোধকৃত ঋণ পরিমাণ',
@@ -104,14 +101,7 @@ export default function Step3({ prev, next, data, setData, language, isVerifiedU
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">{lang.loanType}</label>
-            <select value={form.loanType} onChange={e => update({ loanType: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
-              <option value="Secured">Secured</option>
-              <option value="Unsecured">Unsecured</option>
-            </select>
-          </div>
+        <div className="grid grid-cols-1 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.purpose}</label>
             <select value={form.purpose} onChange={e => update({ purpose: e.target.value })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
@@ -164,11 +154,7 @@ export default function Step3({ prev, next, data, setData, language, isVerifiedU
           {[['Yes', true], ['No', false]].map(([label, value]) => <button key={label} onClick={() => { update({ existingLoanFlag: value }); if (value && !loans.length) setData('existingLoans', [{ id: Date.now(), bank: '', type: 'Term Loan', outstanding: 0, emi: 0 }]); if (!value) setData('existingLoans', []) }} className={`flex-1 rounded-lg py-2 font-medium ${form.existingLoanFlag === value ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'}`}>{label}</button>)}
         </div>
         {form.existingLoanFlag && <div className="space-y-3">
-          {(loans.length ? loans : [{ id: Date.now(), bank: '', type: 'Term Loan', outstanding: 0, emi: 0 }]).map((loan, index) => <div key={loan.id} className="rounded-lg border border-gray-200 bg-white p-4">
-            <div className="mb-3 flex items-center justify-between"><span className="font-medium">Loan #{index + 1}</span>{loans.length > 1 && <button onClick={() => setData('existingLoans', loans.filter(item => item.id !== loan.id))} className="text-sm text-red-600"><Trash2 className="inline h-4 w-4" /> Remove</button>}</div>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2"><label className="text-sm font-medium text-gray-700">Bank Name<select value={loan.bank} onChange={event => setData('existingLoans', loans.map(item => item.id === loan.id ? { ...item, bank: event.target.value } : item))} className="mt-1 w-full rounded-lg border border-gray-300 p-2 font-normal"><option value="">Select bank</option>{BANKS.map(bank => <option key={bank} value={bank}>{bank}</option>)}</select></label><label className="text-sm font-medium text-gray-700">Existing Loan Type<select value={loan.type} onChange={event => setData('existingLoans', loans.map(item => item.id === loan.id ? { ...item, type: event.target.value } : item))} className="mt-1 w-full rounded-lg border border-gray-300 p-2 font-normal">{EXISTING_LOAN_TYPES.map(type => <option key={type} value={type}>{type}</option>)}</select></label><label className="text-sm font-medium text-gray-700">Existing Outstanding (BDT)<input type="number" value={loan.outstanding} onChange={event => setData('existingLoans', loans.map(item => item.id === loan.id ? { ...item, outstanding: Number(event.target.value) || 0 } : item))} className="mt-1 w-full rounded-lg border border-gray-300 p-2 font-normal" /></label><label className="text-sm font-medium text-gray-700">EMI Amount (BDT)<input type="number" value={loan.emi} onChange={event => setData('existingLoans', loans.map(item => item.id === loan.id ? { ...item, emi: Number(event.target.value) || 0 } : item))} className="mt-1 w-full rounded-lg border border-gray-300 p-2 font-normal" /></label></div>
-          </div>)}
-          <button onClick={() => setData('existingLoans', [...loans, { id: Date.now(), bank: '', type: 'Term Loan', outstanding: 0, emi: 0 }])} className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-primary py-2 text-primary"><Plus className="h-4 w-4" /> Add Loan</button>
+          {(() => { const loan = loans[0] || { id: 'existing-loan', bank: '', type: 'Term Loan', outstanding: 0, emi: 0 }; const saveLoan = fields => setData('existingLoans', [{ ...loan, ...fields }]); return <div className="rounded-lg border border-gray-200 bg-white p-4"><div className="grid grid-cols-1 gap-3 sm:grid-cols-2"><label className="text-sm font-medium text-gray-700">Bank Name<select value={loan.bank} onChange={event => saveLoan({ bank: event.target.value })} className="mt-1 w-full rounded-lg border border-gray-300 p-2 font-normal"><option value="">Select bank</option>{BANKS.map(bank => <option key={bank} value={bank}>{bank}</option>)}</select></label><label className="text-sm font-medium text-gray-700">Existing Loan Type<select value={loan.type} onChange={event => saveLoan({ type: event.target.value })} className="mt-1 w-full rounded-lg border border-gray-300 p-2 font-normal">{EXISTING_LOAN_TYPES.map(type => <option key={type} value={type}>{type}</option>)}</select></label><FinancialRangeInput label="Existing Outstanding (BDT)" value={loan.outstanding} onChange={value => saveLoan({ outstanding: value })} min={0} max={10000000} step={50000} /><FinancialRangeInput label="EMI Amount (BDT)" value={loan.emi} onChange={value => saveLoan({ emi: value })} min={0} max={500000} step={5000} /></div></div> })()}
         </div>}
 
         <div className="flex justify-between pt-4">

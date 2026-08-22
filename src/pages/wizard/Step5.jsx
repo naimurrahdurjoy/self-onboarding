@@ -14,12 +14,12 @@ export default function Step5({ prev, next, data, setData, language }) {
   const update = fields => setData('trade', fields)
   const districts = DIVISION_DISTRICTS_MAP[form.division] || []
   const branches = getDistrictBranches(form.district)
-  const input = (key, type = 'text') => <input type={type} value={form[key] || ''} onChange={e => update({ [key]: e.target.value })} className="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-primary" />
-  const field = (label, key, type = 'text') => <div><label className="mb-1 block text-sm font-medium text-gray-700">{label}</label>{input(key, type)}</div>
+  const input = (key, type = 'text', readOnly = false) => <input type={type} value={form[key] || ''} onChange={e => update({ [key]: e.target.value })} readOnly={readOnly} className={`w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-primary ${readOnly ? 'cursor-not-allowed bg-gray-100' : ''}`} />
+  const field = (label, key, type = 'text', readOnly = false) => <div><label className="mb-1 block text-sm font-medium text-gray-700">{label}</label>{input(key, type, readOnly)}</div>
 
   return <div><h2 className="mb-4 text-2xl font-bold text-primary">{lang.title}</h2><div className="space-y-4">
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2"><div><label className="mb-1 block text-sm font-medium text-gray-700">{lang.operation}</label><select value={form.operationMode} onChange={e => update({ operationMode: e.target.value })} className="w-full rounded-lg border border-gray-300 p-2">{OPERATION_MODES.map(item => <option key={item}>{item}</option>)}</select></div><div>{field(lang.proposal, 'proposalType')}</div></div>
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{field(lang.business, 'businessName')}{field(lang.entity, 'entityType')}</div>
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2"><div><label className="mb-1 block text-sm font-medium text-gray-700">{lang.operation}</label><select value={form.operationMode} onChange={e => update({ operationMode: e.target.value })} className="w-full rounded-lg border border-gray-300 p-2">{OPERATION_MODES.map(item => <option key={item}>{item}</option>)}</select></div><div>{field(lang.proposal, 'proposalType', 'text', true)}</div></div>
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{field(lang.business, 'businessName', 'text', true)}{field(lang.entity, 'entityType', 'text', true)}</div>
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">{field(lang.product, 'businessProduct')}{field(lang.start, 'startDate', 'date')}{field(lang.employees, 'employees', 'number')}</div>
     <div><label className="mb-1 block text-sm font-medium text-gray-700">{lang.ownership}</label><select value={form.ownership} onChange={e => update({ ownership: e.target.value })} className="w-full rounded-lg border border-gray-300 p-2">{OWNERSHIP_OPTIONS.map(item => <option key={item}>{item}</option>)}</select></div>
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{field(lang.tradeNumber, 'tradeNumber')}{field(lang.issue, 'issueDate', 'date')}{field(lang.expiry, 'expiryDate', 'date')}{field(lang.authority, 'issueAuthority')}</div>

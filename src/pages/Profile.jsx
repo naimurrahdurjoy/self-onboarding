@@ -19,11 +19,11 @@ const navItems = [
 const copy = {
   bn: {
     dashboard: 'ড্যাশবোর্ড', profile: 'প্রোফাইল', services: 'এসএমই ঋণ সেবাসমূহ', faqs: 'জিজ্ঞাসিত প্রশ্নাবলী', guide: 'নির্দেশিকা / ম্যানুয়াল',
-    portal: 'সরকারি সেবা পোর্টাল', verifyButton: '[ প্রোফাইল তথ্য যাচাই ]', statusTitle: 'যাচাইয়ের অবস্থা', mobile: 'মোবাইল নম্বর', email: 'ই-মেইল', nid: 'জাতীয় পরিচয়পত্র', trade: 'ট্রেড লাইসেন্স', tin: 'ই-টিন', bank: 'ব্যাংক স্টেটমেন্ট', verified: 'ভেরিফাইড', inReview: 'পর্যালোচনাধীন', pending: 'অপেক্ষমাণ', citizen: 'নাগরিক প্রোফাইল', title: 'প্রোফাইল যাচাই', subtitle: 'আপনার পরিচয় ও ব্যবসায়িক তথ্যের নিরাপদ রেকর্ড', accountVerified: '✓ জাতীয় পরিচয়পত্র দ্বারা ভেরিফাইডকৃত অ্যাকাউন্ট', accountPending: '⏳ ভেরিফিকেশন অপেক্ষমাণ', documents: 'ভেরিফাইড ডকুমেন্ট', records: 'সরকারি রেকর্ড থেকে সর্বশেষ তথ্য', lastUpdated: 'সর্বশেষ আপডেট', changeMobile: 'মোবাইল নম্বর পরিবর্তন করুন', changePassword: 'পাসওয়ার্ড পরিবর্তন করুন', waiting: 'আপডেট প্রয়োজন'
+    verifyButton: '[ প্রোফাইল তথ্য যাচাই ]', statusTitle: 'যাচাইয়ের অবস্থা', mobile: 'মোবাইল নম্বর', email: 'ই-মেইল', nid: 'জাতীয় পরিচয়পত্র', trade: 'ট্রেড লাইসেন্স', tin: 'ই-টিন', bank: 'ব্যাংক স্টেটমেন্ট', verified: 'ভেরিফাইড', inReview: 'পর্যালোচনাধীন', pending: 'অপেক্ষমাণ', citizen: 'নাগরিক প্রোফাইল', title: 'প্রোফাইল যাচাই', subtitle: 'আপনার পরিচয় ও ব্যবসায়িক তথ্যের নিরাপদ রেকর্ড', accountVerified: '✓ জাতীয় পরিচয়পত্র দ্বারা ভেরিফাইডকৃত অ্যাকাউন্ট', accountPending: '⏳ ভেরিফিকেশন অপেক্ষমাণ', documents: 'ভেরিফাইড ডকুমেন্ট', records: 'সরকারি রেকর্ড থেকে সর্বশেষ তথ্য', lastUpdated: 'সর্বশেষ আপডেট', changeMobile: 'মোবাইল নম্বর পরিবর্তন করুন', changePassword: 'পাসওয়ার্ড পরিবর্তন করুন', waiting: 'আপডেট প্রয়োজন'
   },
   en: {
     dashboard: 'Dashboard', profile: 'Profile', services: 'SME Loan Services', faqs: 'FAQs', guide: 'User Guide',
-    portal: 'Government service portal', verifyButton: '[ Verify Profile Information ]', statusTitle: 'Verification Status', mobile: 'Mobile Number', email: 'Email', nid: 'National ID', trade: 'Trade License', tin: 'e-TIN', bank: 'Bank Statements', verified: 'Verified', inReview: 'In Review', pending: 'Pending', citizen: 'Citizen Profile', title: 'Profile Verification', subtitle: 'Secure record of your identity & business details', accountVerified: '✓ National ID verified account', accountPending: '⏳ Verification Pending', documents: 'Verified Documents', records: 'Latest information from government records', lastUpdated: 'Last Updated', changeMobile: 'Change Mobile Number', changePassword: 'Change Password', waiting: 'Pending —'
+    verifyButton: '[ Verify Profile Information ]', statusTitle: 'Verification Status', mobile: 'Mobile Number', email: 'Email', nid: 'National ID', trade: 'Trade License', tin: 'e-TIN', bank: 'Bank Statements', verified: 'Verified', inReview: 'In Review', pending: 'Pending', citizen: 'Citizen Profile', title: 'Profile Verification', subtitle: 'Secure record of your identity & business details', accountVerified: '✓ National ID verified account', accountPending: '⏳ Verification Pending', documents: 'Verified Documents', records: 'Latest information from government records', lastUpdated: 'Last Updated', changeMobile: 'Change Mobile Number', changePassword: 'Change Password', waiting: 'Pending —'
   }
 }
 
@@ -62,9 +62,7 @@ export default function Profile({ language = 'bn' }) {
       <aside className={`fixed inset-y-0 left-0 z-50 w-72 border-r border-[#d8e4dd] bg-white p-5 transition-transform md:sticky md:top-0 md:float-left md:block md:h-screen md:translate-x-0 ${drawerOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="mb-10 flex items-center justify-between">
           <div>
-            <img src={logoImage} alt="Disha SME" className="mb-3 h-12 w-auto object-contain" />
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#0b6b45]">Disha SME</p>
-            <p className="mt-1 text-sm text-slate-500">{text.portal}</p>
+            <img src={logoImage} alt="দুর্জয় Logo" className="mb-3 h-12 w-auto object-contain" />
           </div>
           <button className="md:hidden" onClick={() => setDrawerOpen(false)} aria-label="মেনু বন্ধ করুন"><X /></button>
         </div>

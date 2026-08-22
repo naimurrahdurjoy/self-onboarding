@@ -60,7 +60,7 @@ export default function Header({ language, setLanguage }) {
         >
           <img
             src={logoImage}
-            alt="Disha SME Loan Portal"
+            alt="দুর্জয় Logo"
             className="h-12 sm:h-14 w-auto max-w-[120px] object-contain"
           />
         </button>

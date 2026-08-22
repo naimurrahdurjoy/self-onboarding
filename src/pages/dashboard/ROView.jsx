@@ -167,7 +167,7 @@ export default function ROView({ language }) {
     const lead = mockLeads.find(l => l.id === leadId)
     
     if (type === 'welcome') {
-      msg = 'Welcome to Disha SME Loan Portal. Thank you for applying.'
+      msg = 'Welcome to দুর্জয় SME Loan Portal. Thank you for applying.'
     } else if (type === 'roNotice') {
       msg = 'প্রিয় গ্রাহক শিঘ্রই আমাদের প্রতিনিধি আপনার সাথে যোগাযোগ করবে।'
     } else if (type === 'custom') {

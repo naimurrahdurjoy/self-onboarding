@@ -93,7 +93,7 @@ export default function Registration({ language = 'en' }) {
     <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-lightgreen flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-5 sm:p-8">
         <div className="flex justify-center mb-6">
-          <img src={logoImage} alt="Disha SME Loan Portal" className="h-24 w-auto object-contain" />
+          <img src={logoImage} alt="দুর্জয় Logo" className="h-24 w-auto object-contain" />
         </div>
 
         <h1 className="text-2xl font-bold text-center text-primary mb-1">{lang.title}</h1>
