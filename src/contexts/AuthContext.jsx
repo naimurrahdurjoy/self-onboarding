@@ -44,11 +44,17 @@ export function AuthProvider({ children }) {
 
     if (savedSession && savedUser) {
       const parsedUser = JSON.parse(savedUser)
-      setUser(parsedUser)
+      const restoredUser = savedEKYC === 'verified'
+        ? { ...parsedUser, isEkycVerified: true, eKYCVerified: true, nidVerified: true }
+        : parsedUser
+      setUser(restoredUser)
       setIsAuthenticated(true)
       setEKYCStatus(savedEKYC || 'pending')
       setUserProfile(savedProfile ? JSON.parse(savedProfile) : defaultProfile)
       setApplicationStatus(savedAppStatus || 'Not Started')
+      if (restoredUser !== parsedUser) {
+        localStorage.setItem('user', JSON.stringify(restoredUser))
+      }
     } else {
       setUser(null)
       setIsAuthenticated(false)
@@ -95,6 +101,8 @@ export function AuthProvider({ children }) {
       mockUser.name = 'রেজিস্টার্ড ক্লায়েন্ট'
       mockUser.email = 'client@example.com'
       mockUser.eKYCVerified = true
+      mockUser.isEkycVerified = true
+      mockUser.nidVerified = true
       nextEKYC = 'verified'
       nextAppStatus = 'eKYC Verified'
       const profile = {
@@ -109,6 +117,7 @@ export function AuthProvider({ children }) {
         eTin: '123-456-789',
         nomineeDetails: 'Nominee Name'
       }
+      mockUser.profileData = profile
       setUserProfile(profile)
       localStorage.setItem('userProfile', JSON.stringify(profile))
     } else if (mobile === '01700000002') {
@@ -139,7 +148,10 @@ export function AuthProvider({ children }) {
       ...userData,
       avatar: userData.mobile.slice(-1),
       createdAt: new Date(),
-      eKYCVerified: false
+      eKYCVerified: false,
+      isEkycVerified: false,
+      nidVerified: false,
+      profileData: defaultProfile
     }
 
     setUser(newUser)
@@ -182,7 +194,7 @@ export function AuthProvider({ children }) {
     // Simulate 1.5 second verification
     setTimeout(() => {
       setEKYCStatus('verified')
-      const updated = { ...user, eKYCVerified: true }
+      const updated = { ...user, eKYCVerified: true, isEkycVerified: true, nidVerified: true, profileData: userProfile }
       setUser(updated)
       setApplicationStatus('eKYC Verified')
       localStorage.setItem('user', JSON.stringify(updated))

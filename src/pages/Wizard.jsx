@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import {
-  UserCheck, Briefcase, Calculator, Building2, Landmark, FileCheck
+  UserCheck, Briefcase, Building2, Landmark, FileCheck
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { DEFAULT_INTEREST_RATE } from '../constants/options'
 import Step1 from './wizard/Step1'
 import Step2 from './wizard/Step2'
 import Step3 from './wizard/Step3'
-import Step4 from './wizard/Step4'
 import Step5 from './wizard/Step5'
 import Step6 from './wizard/Step6'
 import Step7 from './wizard/Step7'
@@ -15,7 +14,6 @@ import Step7 from './wizard/Step7'
 const WIZARD_TABS = [
   { id: 1, key: 'personal', icon: UserCheck, en: 'Personal & eKYC', bn: 'ব্যক্তিগত ও ই-কেওয়াইসি' },
   { id: 2, key: 'business', icon: Briefcase, en: 'Business & Financials', bn: 'ব্যবসা ও আর্থিক' },
-  { id: 3, key: 'calculator', icon: Calculator, en: 'Loan Calculator', bn: 'ঋণ ক্যালকুলেটর' },
   { id: 4, key: 'trade', icon: Building2, en: 'Trade & Entity Details', bn: 'ট্রেড ও সত্তা বিবরণ' },
   { id: 5, key: 'existingLoans', icon: Landmark, en: 'Existing Banking Loans', bn: 'বিদ্যমান ব্যাংক ঋণ' },
   { id: 6, key: 'preview', icon: FileCheck, en: 'Preview & Submit', bn: 'পূর্বরূপ ও জমা' }
@@ -209,9 +207,6 @@ export default function Wizard({ language }) {
           )}
           {step === 2 && (
             <Step3 prev={prev} next={next} data={data} setData={mergeData} language={language} isVerifiedUser={isVerifiedUser} />
-          )}
-          {step === 3 && (
-            <Step4 prev={prev} next={next} data={data} setData={mergeData} language={language} />
           )}
           {step === 4 && (
             <Step5 prev={prev} next={next} data={data} setData={mergeData} language={language} />

@@ -15,18 +15,17 @@ const navItems = [
   { label: 'নির্দেশিকা / ম্যানুয়াল', icon: BookOpen, path: '/dashboard' }
 ]
 
-const documents = [
-  ['জাতীয় পরিচয়পত্র', 'ভেরিফাইড', '৯৮%', '১৫ আগস্ট ২০২৬', true],
-  ['ট্রেড লাইসেন্স', 'ভেরিফাইড', '৯৫%', '১৫ আগস্ট ২০২৬', true],
-  ['মোবাইল নম্বর', 'ভেরিফাইড', '১০০%', '০১ আগস্ট ২০২৬', true],
-  ['ই-মেইল', 'যাচাই করা হয়নি', '—', 'আপডেট প্রয়োজন', false]
-]
-
 export default function Profile({ language = 'bn' }) {
   const { user, eKYCStatus } = useAuth()
   const navigate = useNavigate()
   const [drawerOpen, setDrawerOpen] = useState(false)
   const isVerified = eKYCStatus === 'verified'
+  const documents = [
+    ['জাতীয় পরিচয়পত্র', isVerified ? 'ভেরিফাইড' : 'অপেক্ষমাণ', isVerified ? '৯৮%' : '—', isVerified ? '১৫ আগস্ট ২০২৬' : 'আপডেট প্রয়োজন', isVerified],
+    ['ট্রেড লাইসেন্স', isVerified ? 'ভেরিফাইড' : 'অপেক্ষমাণ', isVerified ? '৯৫%' : '—', isVerified ? '১৫ আগস্ট ২০২৬' : 'আপডেট প্রয়োজন', isVerified],
+    ['মোবাইল নম্বর', 'ভেরিফাইড', '১০০%', '০১ আগস্ট ২০২৬', true],
+    ['ই-মেইল', 'যাচাই করা হয়নি', '—', 'আপডেট প্রয়োজন', false]
+  ]
   const displayName = user?.name || 'মোহাম্মদ জাহাঙ্গীর আলম'
   const mobile = user?.mobile || '০১৭০০০০০০০০'
 

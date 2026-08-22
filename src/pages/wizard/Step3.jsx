@@ -115,12 +115,14 @@ export default function Step3({ prev, next, data, setData, language, isVerifiedU
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.requested}</label>
-            <input type="number" value={form.requested} onChange={e => update({ requested: parseFloat(e.target.value) || 0 })} className="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+            <input type="range" min="50000" max="3000000" step="25000" value={form.requested} onChange={e => update({ requested: parseFloat(e.target.value) || 0 })} className="w-full accent-primary" />
+            <input type="number" min="50000" max="3000000" step="25000" value={form.requested} onChange={e => update({ requested: parseFloat(e.target.value) || 0 })} className="mt-2 w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">{lang.tenure}</label>
             <div className="flex flex-col sm:flex-row gap-2">
-              <input type="number" value={form.tenureValue} onChange={e => update({ tenureValue: parseFloat(e.target.value) || 0 })} className="w-full flex-1 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
+              <input type="range" min="1" max={form.tenureUnit === 'Years' ? 7 : 84} step="1" value={form.tenureValue} onChange={e => update({ tenureValue: parseFloat(e.target.value) || 0 })} className="w-full flex-1 accent-primary" />
+              <input type="number" min="1" max={form.tenureUnit === 'Years' ? 7 : 84} value={form.tenureValue} onChange={e => update({ tenureValue: parseFloat(e.target.value) || 0 })} className="w-full sm:w-24 border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" />
               <select value={form.tenureUnit} onChange={e => update({ tenureUnit: e.target.value })} className="w-full sm:w-auto border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                 <option value="Months">{lang.months}</option>
                 <option value="Years">{lang.years}</option>
