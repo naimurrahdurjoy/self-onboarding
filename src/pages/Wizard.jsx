@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import {
-  Briefcase, Building2, Landmark, FileCheck
-} from 'lucide-react'
+import { Briefcase, Building2, FileCheck } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { DEFAULT_INTEREST_RATE } from '../constants/options'
 import Step3 from './wizard/Step3'
 import Step5 from './wizard/Step5'
 import Step7 from './wizard/Step7'
 
-const WIZARD_TABS = [
-  { id: 1, key: 'business', icon: Briefcase, en: 'Business & Financials', bn: 'ব্যবসা ও আর্থিক' },
-  { id: 2, key: 'trade', icon: Building2, en: 'Trade & Entity Details', bn: 'ট্রেড ও সত্তা বিবরণ' },
-  { id: 3, key: 'preview', icon: FileCheck, en: 'Preview & Submit', bn: 'পূর্বরূপ ও জমা' }
+const WIZARD_STEPS = [
+  { id: 1, key: 'financials', label: 'Business & Financials' },
+  { id: 2, key: 'trade', label: 'Trade & Entity Details' },
+  { id: 3, key: 'preview', label: 'Preview & Submit' }
 ]
+
+const STEP_ICONS = { financials: Briefcase, trade: Building2, preview: FileCheck }
+const STEP_LABELS = { financials: 'ব্যবসা ও আর্থিক', trade: 'ট্রেড ও সত্তা বিবরণ', preview: 'পূর্বরূপ ও জমা' }
 
 const defaultData = (mobile) => ({
   mobile: mobile || '',
@@ -115,7 +116,7 @@ export default function Wizard({ language }) {
   }, [data])
 
   const lang = language === 'bn' ? 'bn' : 'en'
-  const tabs = WIZARD_TABS
+  const tabs = WIZARD_STEPS
 
   const mergeData = (section, sectionData) => {
     setData(prev => {
@@ -129,7 +130,7 @@ export default function Wizard({ language }) {
     if (!completedTabs.includes(step)) {
       setCompletedTabs(prev => [...prev, step])
     }
-    setStep(s => targetStep || Math.min(s + 1, 3))
+    setStep(s => typeof targetStep === 'number' ? targetStep : Math.min(s + 1, 3))
   }
 
   const prev = () => {
@@ -148,7 +149,7 @@ export default function Wizard({ language }) {
         <div className="mb-6 overflow-x-auto">
           <div className="flex gap-2 min-w-max pb-2">
             {tabs.map(tab => {
-              const Icon = tab.icon
+              const Icon = STEP_ICONS[tab.key]
               const isActive = step === tab.id
               const isCompleted = completedTabs.includes(tab.id)
 
@@ -165,7 +166,7 @@ export default function Wizard({ language }) {
                   }`}
                 >
                   <Icon className="w-4 h-4 flex-shrink-0" />
-                  <span>{lang === 'bn' ? tab.bn : tab.en}</span>
+                  <span>{lang === 'bn' ? STEP_LABELS[tab.key] : tab.label}</span>
                 </button>
               )
             })}
